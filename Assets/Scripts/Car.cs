@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class Car : MonoBehaviour
 {
-	public float moveSpeed; // Nesnenin hareket hýzý
+	public float moveSpeed=10f; // Nesnenin hareket hýzý
 	public bool stop= false;
 	public SpeedIndicator speedIndicator;
 	public Timer timer;
     public Vector3 carPosition;
     public GameManager ManagerGame;
     public GameObject RestartAndQuit;
+    public Questions Questions;
+    public GameObject PausePanel;
     void Start()
 	{
 		Time.timeScale = 1f;
@@ -34,6 +36,7 @@ public class Car : MonoBehaviour
 		{
 
             RestartAndQuit.SetActive(true);
+            Questions.DogruYanlis();
             Time.timeScale = 0f;
 			moveSpeed = 0f;
 			timer.StopTimer();
@@ -82,16 +85,24 @@ public class Car : MonoBehaviour
     {
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        moveSpeed = 5f;
+        moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi",moveSpeed);
+        Questions.Dogru = 0;
+        PlayerPrefs.SetInt("Dogru",Questions.Dogru);
+        Questions.Yanlis = 0;
+        PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
     }
     public void Restart()
     {
         RestartAndQuit.SetActive(false);
         SceneManager.LoadScene(0);
+        Questions.Dogru = 0;
+        PlayerPrefs.SetInt("Dogru", Questions.Dogru);
+        Questions.Yanlis = 0;
+        PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        moveSpeed = 5f;
+        moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         timer.ResetTimer();
     }

@@ -14,9 +14,15 @@ public class Questions : MonoBehaviour
     public Car car;
     public float moveSpeed;
     public int deger;
+    public int Dogru=0;
+    public int Yanlis=0;
+    public UnityEngine.UI.Text DogruSayisi;
+    public UnityEngine.UI.Text YanlisSayisi;
     // Start is called before the first frame update
     void Start()
     {
+        Dogru=PlayerPrefs.GetInt("Dogru");
+        Yanlis=PlayerPrefs.GetInt("Yanlis");
 
         Question();
         //Btn1.GetComponentInChildren<Text>().text =Random.Range(1, 10).ToString();
@@ -36,7 +42,7 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 5)).ToString();
                 decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
             Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
@@ -48,12 +54,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString();
                 decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) == decimal.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 15).ToString();
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString();
                 decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
@@ -70,7 +76,7 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString();
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 10)).ToString();
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
             Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString();
@@ -82,12 +88,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString();
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString();
                 decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) == decimal.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = Random.Range(100, 550).ToString();
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString();
                 decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
@@ -112,14 +118,18 @@ public class Questions : MonoBehaviour
             moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
             moveSpeed += 5f;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            SceneManager.LoadScene(1);
+            Dogru = Dogru + 1;
+            PlayerPrefs.SetInt("Dogru", Dogru);
+            GoBack();
         
         }
         if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
         {
             Conclusion.text = "Yanlýþ";
             Btn1.GetComponent<Image>().color = Color.red;
-            SceneManager.LoadScene(1);
+            Yanlis = Yanlis + 1;
+            PlayerPrefs.SetInt("Yanlis", Yanlis);
+            GoBack();
         }
         
     }
@@ -132,14 +142,18 @@ public class Questions : MonoBehaviour
             moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
             moveSpeed += 5f;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            SceneManager.LoadScene(1);
+            Dogru = Dogru + 1;
+            PlayerPrefs.SetInt("Dogru", Dogru);
+            GoBack();
 
         }
         if (decimal.Parse(Btn2.GetComponentInChildren<Text>().text) != TransactionResult)
         {
             Conclusion.text = "Yanlýþ";
             Btn2.GetComponent<Image>().color = Color.red;
-            SceneManager.LoadScene(1);
+            Yanlis = Yanlis + 1;
+            PlayerPrefs.SetInt("Yanlis", Yanlis);
+            GoBack();
         }
     }
     public void Question()
@@ -208,5 +222,12 @@ public class Questions : MonoBehaviour
     {
         moveSpeed = 5f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+    }
+    public void DogruYanlis()
+    {
+        Dogru= PlayerPrefs.GetInt("Dogru");
+        Yanlis = PlayerPrefs.GetInt("Yanlis");
+        DogruSayisi.text=Dogru.ToString();
+        YanlisSayisi.text=Yanlis.ToString(); 
     }
 }

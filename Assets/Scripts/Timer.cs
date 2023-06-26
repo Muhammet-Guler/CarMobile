@@ -154,6 +154,7 @@ public class Timer : MonoBehaviour
     //}
     public void ResetTimer()
     {
+        gameManager.isTimerRunning = false;
         elapsedTime = Time.time - gameManager.startTime;
 
         minutes = (int)(elapsedTime / 60);
