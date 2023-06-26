@@ -9,7 +9,7 @@ public class Questions : MonoBehaviour
     public UnityEngine.UI.Text FirstNumber, SecondNumber, Operator, Conclusion;
     public UnityEngine.UI.Button Btn1, Btn2;
     int OperatorSign;
-    decimal N1, N2, TransactionResult;
+    double N1, N2, TransactionResult;
     public float Speed=0f;
     public Car car;
     public float moveSpeed;
@@ -21,80 +21,82 @@ public class Questions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Dogru ve yanlis sayilari çaðýrýlýyor
         Dogru=PlayerPrefs.GetInt("Dogru");
         Yanlis=PlayerPrefs.GetInt("Yanlis");
 
         Question();
-        //Btn1.GetComponentInChildren<Text>().text =Random.Range(1, 10).ToString();
-        //int.Parse(Btn1.GetComponentInChildren<Text>().text);
-
-        //Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
-        //int.Parse(Btn2.GetComponentInChildren<Text>().text);
+        //zorluk seviyesi için degeri çekiyoruz
         deger = PlayerPrefs.GetInt("deger");
+
+
+        //butonlarýn içindeki textlere rastgele deðerler ve rastgele gelen iþlemin sonucunun atamasýný yapýyoruz. deger==0 kolay mod için
+        //deger==1 zor mod için daha sonra atmasýný yaptýðýmýz buton textlerini double türüne çevirerek kontrolü saðlýyoruz
+        //("0.00") iþlemi virgülden sonra 2 basamak yazdýrmamýzý saðlýyor
         if (deger == 0)
         {
-            Btn1.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
-            decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) > 5)
+            Btn1.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString("0.00");
+            double.Parse(Btn1.GetComponentInChildren<Text>().text);
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 5)
             {
-                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString();
-                decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
+                double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 5)).ToString();
-                decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 5)).ToString("0.00");
+                double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
-            Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString();
-            decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+            Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString("0.00");
+            double.Parse(Btn2.GetComponentInChildren<Text>().text);
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
             {
-                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) == decimal.Parse(Btn2.GetComponentInChildren<Text>().text))
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
 
 
         if (deger == 1)
         {
-            Btn1.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString();
-            decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) > 150)
+            Btn1.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString("0.00");
+            double.Parse(Btn1.GetComponentInChildren<Text>().text);
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 150)
             {
-                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString();
-                decimal.Parse(Btn1.GetComponentInChildren<Text>().text);
-            }
-            else
-            {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 10)).ToString();
+                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
-            Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString();
-            decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+            else
             {
-                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 10)).ToString("0.00");
+                double.Parse(Btn1.GetComponentInChildren<Text>().text);
+            }
+            Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString("0.00");
+            double.Parse(Btn2.GetComponentInChildren<Text>().text);
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+            {
+                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
-            if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) == decimal.Parse(Btn2.GetComponentInChildren<Text>().text))
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString();
-                decimal.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString("0.00");
+                double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
 
@@ -104,13 +106,16 @@ public class Questions : MonoBehaviour
     void Update()
     {
     }
+    //Geri dönüþ fonksiyonu
     public void GoBack()
     {
         SceneManager.LoadScene(1);
     }
+    //Cevaplarýn kontrolünü saðladýðýmýz fonksiyonlar
+    //burada doðru olaný bularak arabayý hýzlandýrma ve doðru yanlýþ sayýlarýný saydýrma iþlemlerini yaptýrýyoruz
     public void AnswerControl1()
     {
-        if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) == TransactionResult)
+        if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == TransactionResult)
         {
             
             Conclusion.text = "Doðru";
@@ -123,7 +128,7 @@ public class Questions : MonoBehaviour
             GoBack();
         
         }
-        if (decimal.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+        if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
         {
             Conclusion.text = "Yanlýþ";
             Btn1.GetComponent<Image>().color = Color.red;
@@ -135,7 +140,7 @@ public class Questions : MonoBehaviour
     }
     public void AnswerControl2()
     {
-        if (decimal.Parse(Btn2.GetComponentInChildren<Text>().text) == TransactionResult)
+        if (double.Parse(Btn2.GetComponentInChildren<Text>().text) == TransactionResult)
         {
             Conclusion.text = "Doðru";
             Btn2.GetComponent<Image>().color = Color.green;
@@ -147,7 +152,7 @@ public class Questions : MonoBehaviour
             GoBack();
 
         }
-        if (decimal.Parse(Btn2.GetComponentInChildren<Text>().text) != TransactionResult)
+        if (double.Parse(Btn2.GetComponentInChildren<Text>().text) != TransactionResult)
         {
             Conclusion.text = "Yanlýþ";
             Btn2.GetComponent<Image>().color = Color.red;
@@ -156,6 +161,7 @@ public class Questions : MonoBehaviour
             GoBack();
         }
     }
+    //Random sayý ve random operator oluþturarak her seferinde farklý sorular oluþturuyoruz
     public void Question()
     {
         deger = PlayerPrefs.GetInt("deger");
@@ -182,6 +188,8 @@ public class Questions : MonoBehaviour
                 case 4:
                     Operator.text = "/";
                     TransactionResult = N1 / N2;
+                    TransactionResult.ToString("0.00");
+                    double.Parse(TransactionResult.ToString("0.00"));
                     break;
             }
             FirstNumber.text = N1 + "";
@@ -210,19 +218,22 @@ public class Questions : MonoBehaviour
                 case 4:
                     Operator.text = "/";
                     TransactionResult = N1 / N2;
+                    TransactionResult.ToString("0.00");
+                    double.Parse(TransactionResult.ToString("0.00"));
                     break;
             }
             FirstNumber.text = N1 + "";
             SecondNumber.text = N2 + "";
         }
-        //ConclusionBtn.text = "";
         
     }
+    //Çýkýþ yaptýðýmýzda hýzý 10f e sabitliyoruz.
     void OnApplicationQuit()
     {
-        moveSpeed = 5f;
+        moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
     }
+    //Doðru yanlýþ sayýlarýný tutup yazdýrdýðýmýz fonksiyon
     public void DogruYanlis()
     {
         Dogru= PlayerPrefs.GetInt("Dogru");

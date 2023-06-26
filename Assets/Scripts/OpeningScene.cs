@@ -18,6 +18,7 @@ public class OpeningScene : MonoBehaviour
     {
         
     }
+    //acilis ekranýmýz modlara göre geçiþ yapýyor ve sorular scriptinde kolay zor sorular için degere 1 ve 0 degerlerinin atamasýný yapýyorum.
     public void Kolay()
     {
         SceneManager.LoadScene(1);

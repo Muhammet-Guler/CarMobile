@@ -21,6 +21,11 @@ public class Timer : MonoBehaviour
 
     public void Start()
     {
+        //5 saniyede bir ekran deðiþimini saðlýyoruz
+        //rekor kontrol ediliyor
+        //saniye baþlatýlýyor
+
+
         Time.timeScale = 1f;
         timerRunning = false;
         gameManager = GameObject.FindObjectOfType<GameManager>();
@@ -66,6 +71,7 @@ public class Timer : MonoBehaviour
             gameManager.isTimerRunning = true;
         }
     }
+    //sayacý durdurma fonksiyonu
     public void StopTimer()
     {
         if (gameManager != null)
@@ -74,10 +80,9 @@ public class Timer : MonoBehaviour
         }
         CancelInvoke("QuestionsScene");
     }
-
+    //sayaç sürekli güncelleniyor
     private void Update()
     {
-        //CheckHighScore();
         if (gameManager != null && gameManager.isTimerRunning)
         {
             elapsedTime = Time.time - gameManager.startTime;
@@ -93,15 +98,19 @@ public class Timer : MonoBehaviour
 
         }
     }
+    //timerstringi döndürüyoruz
     public string GetTimerString()
     {
         return timerString;
     }
+    //Hangi ekrana geçiþ saðlayacaðýmýz fonksiyon
     private void ChangeScene()
     {
         Time.timeScale = 0f;
         SceneManager.LoadScene(2);
     }
+
+    //burada  saniyemizin rekordan küçük olup olmadýðýný kontrol ediyoruz ve yazdýrýyoruz
     public void CheckHighScore()
     {
         
@@ -126,32 +135,12 @@ public class Timer : MonoBehaviour
             highScoreText.text = FormatTime(highScoreMinutes, highScoreSeconds);
         }
     }
+    // sayacýn format fonksiyonu
     public string FormatTime(int minutes, int seconds)
     {
         return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
-    //private void LoadHighScore()
-    //{
-    //    if (PlayerPrefs.HasKey("HighScoreMinutes"))
-    //    {
-    //        highScoreMinutes = PlayerPrefs.GetInt("HighScoreMinutes");
-    //    }
-    //    if (PlayerPrefs.HasKey("HighScoreSeconds"))
-    //    {
-    //        highScoreSeconds = PlayerPrefs.GetInt("HighScoreSeconds");
-    //    }
-    //}
-    //public void ResetHighScore()
-    //{
-    //    highScoreMinutes = 10;
-    //    highScoreSeconds = 99;
-
-    //    PlayerPrefs.DeleteKey("HighScoreMinutes");
-    //    PlayerPrefs.DeleteKey("HighScoreSeconds");
-    //    PlayerPrefs.Save();
-
-    //    highScoreText.text = FormatTime(highScoreMinutes, highScoreSeconds);
-    //}
+    //sayacý sýfýrlýyoruz
     public void ResetTimer()
     {
         gameManager.isTimerRunning = false;

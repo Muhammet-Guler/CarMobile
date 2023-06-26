@@ -14,13 +14,14 @@ public class MapIndicator : MonoBehaviour
 
     private void Start()
     {
+        //baslangic pozisyonunu arabanýn ilk pozisyonuna eþitliyoruz
         baslangicPozisyonu = araba.position;
     }
 
     private void Update()
     {
         float tamamlanacakMesafe = bitisNoktasi.transform.position.z;
-        // Arabanýn geçtiði mesafeyi hesapla ve Slider'ýn deðerini güncelle
+        // Arabanýn geçtiði mesafeyi hesapla ve Slider'ýn deðerini güncelleme
         float mesafe = araba.position.z - baslangicPozisyonu.z;
         float tamamlanmaOrani = mesafe / tamamlanacakMesafe;
         slider.value = tamamlanmaOrani;

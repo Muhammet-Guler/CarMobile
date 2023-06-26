@@ -19,12 +19,11 @@ public class SpeedIndicator : MonoBehaviour
     {
         ibreTransform = ibre.transform;
     }
-
+    //ibremizi arabýmýzýn aldýðý hýza göre ibesini açý vererek döndürüyoruz.
     private void FixedUpdate()
     {
 
         speed = car.moveSpeed;
-        //topSpeed = car.topSpeed;
 
         if (speed > topSpeed) speed = topSpeed;
 

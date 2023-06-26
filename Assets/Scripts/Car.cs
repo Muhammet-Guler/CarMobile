@@ -19,7 +19,8 @@ public class Car : MonoBehaviour
 		Time.timeScale = 1f;
         LoadCarPosition();
     }
-
+    //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
+    //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
 	void Update()
 	{
         moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
@@ -30,6 +31,9 @@ public class Car : MonoBehaviour
         }
         carPosition = transform.position;
     }
+    //finishe geldiðimizde restart ekranýmýz geliyor
+    //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
+    //rekor güncelleniyor
     private void OnTriggerEnter(Collider other)
     {
 			if (other.tag == "finish")
@@ -52,9 +56,8 @@ public class Car : MonoBehaviour
     void OnDestroy()
     {
         SaveCarPosition();
-        //SaveCarSpeed();
     }
-
+    //arabanýn konumunu kaydediyoruz
     public void SaveCarPosition()
     {
         PlayerPrefs.SetFloat("CarPositionX", carPosition.x);
@@ -62,7 +65,7 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetFloat("CarPositionZ", carPosition.z);
         PlayerPrefs.Save();
     }
-
+    //arabanýn konumunu çekiyoruz
     public void LoadCarPosition()
     {
         float posX = PlayerPrefs.GetFloat("CarPositionX");
@@ -71,16 +74,9 @@ public class Car : MonoBehaviour
         carPosition = new Vector3(posX, posY, posZ);
         transform.position = carPosition;
     }
-    //public void SaveCarSpeed()
-    //{
-    //    PlayerPrefs.SetFloat("CarSpeed", moveSpeed);
-    //    PlayerPrefs.Save();
-    //}
-    //public void LoadCarSpeed()
-    //{
-    //    float CarSpeed = PlayerPrefs.GetFloat("CarSpeed");
-    //    moveSpeed = CarSpeed;
-    //}
+    //Oyundan çýkýþ yaptýðýmýzda araba baþlangýç konumuna geri dönüyor
+    //hýzýmýz tekrardan 10f oluyor
+    //doðru yanlýþ sayýlarý sýfýrlanýyor
     void OnApplicationQuit()
     {
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
@@ -92,6 +88,7 @@ public class Car : MonoBehaviour
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
     }
+    //Oyundaki herþey sýfýrlanarak baþlangýç ekranýna geri gönüyoruz
     public void Restart()
     {
         RestartAndQuit.SetActive(false);
@@ -110,17 +107,19 @@ public class Car : MonoBehaviour
     {
         Application.Quit();
     }
-
+    //aktif olduðunda arka plan duruyor ve panelimiz aktif oluyor
     public void PauseButton()
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
     }
+    //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
     }
+    //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);

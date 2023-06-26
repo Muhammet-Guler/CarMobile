@@ -16,7 +16,7 @@ public class Timer2 : MonoBehaviour
         StartTime = Time.time;
     }
 
-    // Update is called once per frame
+    // Soru ekranýmýz için süre baþlatýyoruz 10 saniye dolduðunda önceki ekrana geri dönüyoruz
     void Update()
     {
         if (finnished)
