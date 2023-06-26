@@ -110,4 +110,24 @@ public class Car : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void PauseButton()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void Continue()
+    {
+        Time.timeScale = 1f;
+        PausePanel.SetActive(false);
+    }
+    public void HomeMenu()
+    {
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+        transform.position = carPosition;
+        moveSpeed = 10f;
+        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+        SceneManager.LoadScene(0);
+        timer.ResetTimer();
+    }
 }
