@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Car : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Car : MonoBehaviour
     public GameObject RestartAndQuit;
     public Questions Questions;
     public GameObject PausePanel;
+    public GoogleAnalyticsAndroidV4 googleAnalytics;
     void Start()
 	{
 		Time.timeScale = 1f;

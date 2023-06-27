@@ -901,10 +901,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e00263c16c46170438e071f01dd4eda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0
-  questions: {fileID: 1538352595}
-  car: {fileID: 0}
-  carPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &964213064
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,6 +951,9 @@ MonoBehaviour:
   timer: {fileID: 0}
   carPosition: {x: 0, y: 0, z: 0}
   ManagerGame: {fileID: 0}
+  RestartAndQuit: {fileID: 0}
+  Questions: {fileID: 0}
+  PausePanel: {fileID: 0}
 --- !u!1 &1100035669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,6 +1225,94 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453840927}
   m_CullTransparentMesh: 1
+--- !u!1001 &1504468683
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 197732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_Name
+      value: GAv4
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 497732, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bbc182e4479ba4d21ad61ccd1ffc0944, type: 3}
+--- !u!1 &1504468684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 197732, guid: bbc182e4479ba4d21ad61ccd1ffc0944,
+    type: 3}
+  m_PrefabInstance: {fileID: 1504468683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1504468685 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114531908067335576, guid: bbc182e4479ba4d21ad61ccd1ffc0944,
+    type: 3}
+  m_PrefabInstance: {fileID: 1504468683}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504468684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9613b8deaaf38422ba6dd4031a2a94e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1504468686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504468684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274b4d90f2723f04986317045d00452b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  analiytics: {fileID: 1504468685}
 --- !u!1 &1538352593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,6 +1365,12 @@ MonoBehaviour:
   Btn2: {fileID: 2021349361}
   Speed: 0
   car: {fileID: 964213066}
+  moveSpeed: 0
+  deger: 0
+  Dogru: 0
+  Yanlis: 0
+  DogruSayisi: {fileID: 0}
+  YanlisSayisi: {fileID: 0}
 --- !u!1 &1956054965
 GameObject:
   m_ObjectHideFlags: 0

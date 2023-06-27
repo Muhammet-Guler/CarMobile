@@ -18,6 +18,7 @@ public class Questions : MonoBehaviour
     public int Yanlis=0;
     public UnityEngine.UI.Text DogruSayisi;
     public UnityEngine.UI.Text YanlisSayisi;
+    public GoogleAnalyticsAndroidV4 googleAnalytics;
     // Start is called before the first frame update
     void Start()
     {
