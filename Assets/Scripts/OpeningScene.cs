@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class OpeningScene : MonoBehaviour
 {
+    public GameManager managerGame;
     public int deger;
     // Start is called before the first frame update
     void Start()

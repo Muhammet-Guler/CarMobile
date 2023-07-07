@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Questions : MonoBehaviour
 {
@@ -18,7 +19,16 @@ public class Questions : MonoBehaviour
     public int Yanlis=0;
     public UnityEngine.UI.Text DogruSayisi;
     public UnityEngine.UI.Text YanlisSayisi;
+    public GameObject Confetti;
+    public GameObject Correct;
+    public GameObject False;
+    public Timer2 Timer;
     public GoogleAnalyticsAndroidV4 googleAnalytics;
+
+    public const int minValue1 = 1;
+    public const int maxValue1 = 10;
+    public const int minValue2 = 10;
+    public const int maxValue2 = 300;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +46,7 @@ public class Questions : MonoBehaviour
         //("0.00") iþlemi virgülden sonra 2 basamak yazdýrmamýzý saðlýyor
         if (deger == 0)
         {
-            Btn1.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString("0.00");
+            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue1, maxValue1).ToString("0.00");
             double.Parse(Btn1.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 5)
             {
@@ -45,10 +55,10 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 5)).ToString("0.00");
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(minValue1, 5)).ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
-            Btn2.GetComponentInChildren<Text>().text = Random.Range(1, 10).ToString("0.00");
+            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue1, maxValue1).ToString("0.00");
             double.Parse(Btn2.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
             {
@@ -57,12 +67,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 5)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 5)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 5)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
@@ -70,7 +80,7 @@ public class Questions : MonoBehaviour
 
         if (deger == 1)
         {
-            Btn1.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString("0.00");
+            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue2, maxValue2).ToString("0.00");
             double.Parse(Btn1.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 150)
             {
@@ -79,10 +89,10 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - Random.Range(1, 10)).ToString("0.00");
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
-            Btn2.GetComponentInChildren<Text>().text = Random.Range(10, 300).ToString("0.00");
+            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue2, maxValue2).ToString("0.00");
             double.Parse(Btn2.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
             {
@@ -91,12 +101,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + Random.Range(1, 10)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
         }
@@ -110,10 +120,43 @@ public class Questions : MonoBehaviour
     //Geri dönüþ fonksiyonu
     public void GoBack()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("CarScene");
     }
     //Cevaplarýn kontrolünü saðladýðýmýz fonksiyonlar
     //burada doðru olaný bularak arabayý hýzlandýrma ve doðru yanlýþ sayýlarýný saydýrma iþlemlerini yaptýrýyoruz
+
+    public void AnswerCheck(UnityEngine.UI.Button btn)
+    {
+
+        if (Math.Round(double.Parse(btn.GetComponentInChildren<Text>().text), 2) == Math.Round(TransactionResult, 2))
+        {
+            btn.GetComponent<Image>().color = Color.green;
+            moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+            moveSpeed += 5f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            Dogru = Dogru + 1;
+            PlayerPrefs.SetInt("Dogru", Dogru);
+            Confetti.SetActive(true);
+            Correct.SetActive(true);
+            Timer.finnished = true;
+            Btn1.interactable = false;
+            Btn2.interactable = false;
+            Invoke("GoBack", 3f);
+        }
+        else
+        {
+            Conclusion.text = "Yanlýþ";
+            btn.GetComponent<Image>().color = Color.red;
+            Yanlis = Yanlis + 1;
+            PlayerPrefs.SetInt("Yanlis", Yanlis);
+            False.SetActive(true);
+            Timer.finnished = true;
+            Btn1.interactable = false;
+            Btn2.interactable = false;
+            Invoke("GoBack", 3f);
+        }
+    }
+
     public void AnswerControl1()
     {
         if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == TransactionResult)
@@ -126,7 +169,7 @@ public class Questions : MonoBehaviour
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             Dogru = Dogru + 1;
             PlayerPrefs.SetInt("Dogru", Dogru);
-            GoBack();
+            
         
         }
         if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
@@ -135,7 +178,7 @@ public class Questions : MonoBehaviour
             Btn1.GetComponent<Image>().color = Color.red;
             Yanlis = Yanlis + 1;
             PlayerPrefs.SetInt("Yanlis", Yanlis);
-            GoBack();
+            
         }
         
     }
@@ -150,7 +193,10 @@ public class Questions : MonoBehaviour
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             Dogru = Dogru + 1;
             PlayerPrefs.SetInt("Dogru", Dogru);
-            GoBack();
+            Confetti.SetActive(true);
+            Correct.SetActive(true);
+            Timer.finnished = true;
+            Invoke("GoBack", 3f);
 
         }
         if (double.Parse(Btn2.GetComponentInChildren<Text>().text) != TransactionResult)
@@ -159,7 +205,9 @@ public class Questions : MonoBehaviour
             Btn2.GetComponent<Image>().color = Color.red;
             Yanlis = Yanlis + 1;
             PlayerPrefs.SetInt("Yanlis", Yanlis);
-            GoBack();
+            False.SetActive(true);
+            Timer.finnished = true;
+            Invoke("GoBack", 3f);
         }
     }
     //Random sayý ve random operator oluþturarak her seferinde farklý sorular oluþturuyoruz
@@ -168,9 +216,9 @@ public class Questions : MonoBehaviour
         deger = PlayerPrefs.GetInt("deger");
         if (deger == 0)
         {
-            N1 = Random.Range(1, 10);
-            N2 = Random.Range(1, 10);
-            OperatorSign = Random.Range(1, 5);
+            N1 = UnityEngine.Random.Range(1, 10);
+            N2 = UnityEngine.Random.Range(1, 10);
+            OperatorSign = UnityEngine.Random.Range(1, 5);
 
             switch (OperatorSign)
             {
@@ -196,11 +244,11 @@ public class Questions : MonoBehaviour
             FirstNumber.text = N1 + "";
             SecondNumber.text = N2 + "";
         }
-        if (deger==1)
+        if (deger == 1)
         {
-            N1 = Random.Range(10,100);
-            N2 = Random.Range(10,100);
-            OperatorSign = Random.Range(1, 5);
+            N1 = UnityEngine.Random.Range(10, 100);
+            N2 = UnityEngine.Random.Range(10, 100);
+            OperatorSign = UnityEngine.Random.Range(1, 5);
 
             switch (OperatorSign)
             {
@@ -223,10 +271,10 @@ public class Questions : MonoBehaviour
                     double.Parse(TransactionResult.ToString("0.00"));
                     break;
             }
-            FirstNumber.text = N1 + "";
-            SecondNumber.text = N2 + "";
+            FirstNumber.text = N1.ToString();
+            SecondNumber.text = N2.ToString();
         }
-        
+
     }
     //Çýkýþ yaptýðýmýzda hýzý 10f e sabitliyoruz.
     void OnApplicationQuit()

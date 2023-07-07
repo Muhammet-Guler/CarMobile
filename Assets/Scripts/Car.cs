@@ -16,40 +16,51 @@ public class Car : MonoBehaviour
     public Questions Questions;
     public GameObject PausePanel;
     public GoogleAnalyticsAndroidV4 googleAnalytics;
+    public int sayac=0;
     void Start()
 	{
 		Time.timeScale = 1f;
         LoadCarPosition();
+        sayac = 0;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
 	void Update()
 	{
-        moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-		if (moveSpeed > 360)
+        Scene scene = SceneManager.GetActiveScene();
+        ManagerGame = GameObject.FindObjectOfType<GameManager>();
+        if (ManagerGame.isFinished == false)
         {
-			moveSpeed = 360;
+            if (scene.buildIndex == 1)
+            {
+                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+                if (moveSpeed > 360)
+                {
+                    moveSpeed = 360;
+                }
+                carPosition = transform.position;
+            }
         }
-        carPosition = transform.position;
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
     //rekor güncelleniyor
     private void OnTriggerEnter(Collider other)
     {
-			if (other.tag == "finish")
-		{
-
+        if (other.tag == "finish")
+        {
             RestartAndQuit.SetActive(true);
             Questions.DogruYanlis();
             Time.timeScale = 0f;
-			moveSpeed = 0f;
-			timer.StopTimer();
-            if (moveSpeed>60f)
+            moveSpeed = 0f;
+            //timer.StopTimer();
+            if (moveSpeed > 60f)
             {
                 moveSpeed = 0f;
             }
+
+            ManagerGame.isFinished = true;
 
             CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
@@ -59,7 +70,7 @@ public class Car : MonoBehaviour
     {
         SaveCarPosition();
     }
-    //arabanýn konumunu kaydediyoruz
+
     public void SaveCarPosition()
     {
         PlayerPrefs.SetFloat("CarPositionX", carPosition.x);
@@ -67,7 +78,7 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetFloat("CarPositionZ", carPosition.z);
         PlayerPrefs.Save();
     }
-    //arabanýn konumunu çekiyoruz
+
     public void LoadCarPosition()
     {
         float posX = PlayerPrefs.GetFloat("CarPositionX");
@@ -76,21 +87,20 @@ public class Car : MonoBehaviour
         carPosition = new Vector3(posX, posY, posZ);
         transform.position = carPosition;
     }
-    //Oyundan çýkýþ yaptýðýmýzda araba baþlangýç konumuna geri dönüyor
-    //hýzýmýz tekrardan 10f oluyor
-    //doðru yanlýþ sayýlarý sýfýrlanýyor
+
+
     void OnApplicationQuit()
     {
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
-        PlayerPrefs.SetFloat("ArabaninHizi",moveSpeed);
+        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         Questions.Dogru = 0;
-        PlayerPrefs.SetInt("Dogru",Questions.Dogru);
+        PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
     }
-    //Oyundaki herþey sýfýrlanarak baþlangýç ekranýna geri gönüyoruz
+    //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
     {
         RestartAndQuit.SetActive(false);
@@ -103,7 +113,7 @@ public class Car : MonoBehaviour
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-        timer.ResetTimer();
+        //timer.ResetTimer();
     }
     public void Exit()
     {
@@ -124,11 +134,12 @@ public class Car : MonoBehaviour
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
+        sayac = 1;
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
-        timer.ResetTimer();
+        //timer.ResetTimer();
     }
 }

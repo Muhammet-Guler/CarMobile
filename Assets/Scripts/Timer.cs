@@ -1,125 +1,61 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    public UnityEngine.UI.Text TimerText; /*{ get; private set; }*/
-    public float startTime;
-    public bool timerRunning;
-
+    public UnityEngine.UI.Text TimerText; 
+    private static float carSceneTimer = 0f;
     public string timerString;
+    public Car car;
     public GameManager gameManager;
     public int minutes;
     public int seconds;
-    public int highScoreMinutes=99;
-    public int highScoreSeconds=99;
+    public int highScoreMinutes = 99;
+    public int highScoreSeconds = 99;
     public UnityEngine.UI.Text highScoreText;
-    public float elapsedTime;
-    public Car car;
+    public GameObject PausePanel;
 
-    public void Start()
-    {
-        //5 saniyede bir ekran deðiþimini saðlýyoruz
-        //rekor kontrol ediliyor
-        //saniye baþlatýlýyor
-
-
-        Time.timeScale = 1f;
-        timerRunning = false;
-        gameManager = GameObject.FindObjectOfType<GameManager>();
-        StartTimer();
-        InvokeRepeating("ChangeScene", 5f, 5f);
-        highScoreMinutes = PlayerPrefs.GetInt("HighScoreMinutes");
-        highScoreSeconds = PlayerPrefs.GetInt("HighScoreSeconds");
-        highScoreText.text = FormatTime(highScoreMinutes, highScoreSeconds);
-        if (car.carPosition.z>3200)
-        {
-            CancelInvoke("ChangeScene");
-        }
-    }
-
-    public void InitializeTimer(UnityEngine.UI.Text textComponent)
-    {
-        TimerText = textComponent;
-    }
-
-    public void StartTimer()
-    {
-        if (gameManager != null)
-        {
-            // Devam eden bir sayacýmýz varsa, geçmiþ süreyle baþlat
-            if (gameManager.isTimerRunning)
-            {
-                elapsedTime = Time.time - gameManager.startTime;
-
-                minutes = (int)(elapsedTime / 60);
-                seconds = (int)(elapsedTime % 60);
-
-                timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-                TimerText.text = timerString;
-            }
-            else
-            {
-                // Yeni bir sayacý baþlat
-                startTime = Time.time;
-                gameManager.startTime = startTime;
-            }
-
-            gameManager.isTimerRunning = true;
-        }
-    }
-    //sayacý durdurma fonksiyonu
-    public void StopTimer()
-    {
-        if (gameManager != null)
-        {
-            gameManager.isTimerRunning = false;
-        }
-        CancelInvoke("QuestionsScene");
-    }
-    //sayaç sürekli güncelleniyor
     private void Update()
     {
-        if (gameManager != null && gameManager.isTimerRunning)
+        Scene scene = SceneManager.GetActiveScene();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        if (gameManager.isFinished == false)
         {
-            elapsedTime = Time.time - gameManager.startTime;
-
-            minutes = (int)(elapsedTime / 60);
-            PlayerPrefs.SetInt("minutes", minutes);
-            seconds = (int)(elapsedTime % 60);
-            PlayerPrefs.SetInt("seconds", seconds);
-
-            timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-            TimerText.text = timerString;
-
+            if (scene.buildIndex == 1 &&Time.timeScale==1f)
+            {
+                carSceneTimer += Time.unscaledDeltaTime;
+                //var ts = TimeSpan.FromSeconds(carSceneTimer);
+                minutes = Mathf.FloorToInt(carSceneTimer / 60F);
+                seconds = Mathf.FloorToInt(carSceneTimer - minutes * 60);
+                TimerText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+                highScoreMinutes = PlayerPrefs.GetInt("HighScoreMinutes");
+                highScoreSeconds = PlayerPrefs.GetInt("HighScoreSeconds");
+                highScoreText.text = string.Format("{0:0}:{1:00}", highScoreMinutes, highScoreSeconds);
+                if (seconds % 5 == 0 && seconds != 0)
+                {
+                    carSceneTimer += 1f;
+                    SceneManager.LoadScene(2);
+                }
+            }
+            if (car.sayac==1)
+            {
+                carSceneTimer = 0f;
+            }
         }
     }
-    //timerstringi döndürüyoruz
-    public string GetTimerString()
-    {
-        return timerString;
-    }
-    //Hangi ekrana geçiþ saðlayacaðýmýz fonksiyon
-    private void ChangeScene()
-    {
-        Time.timeScale = 0f;
-        SceneManager.LoadScene(2);
-    }
 
-    //burada  saniyemizin rekordan küçük olup olmadýðýný kontrol ediyoruz ve yazdýrýyoruz
     public void CheckHighScore()
     {
-        
-        
-        if (highScoreMinutes==0)
+
+        if (highScoreMinutes == 0)
         {
             highScoreMinutes = 10;
         }
-        if (highScoreSeconds==0)
+        if (highScoreSeconds == 0)
         {
             highScoreSeconds = 99;
         }
@@ -131,29 +67,7 @@ public class Timer : MonoBehaviour
             PlayerPrefs.SetInt("HighScoreMinutes", highScoreMinutes);
             PlayerPrefs.SetInt("HighScoreSeconds", highScoreSeconds);
             PlayerPrefs.Save();
-
-            highScoreText.text = FormatTime(highScoreMinutes, highScoreSeconds);
+            highScoreText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
         }
-    }
-    // sayacýn format fonksiyonu
-    public string FormatTime(int minutes, int seconds)
-    {
-        return string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-    //sayacý sýfýrlýyoruz
-    public void ResetTimer()
-    {
-        gameManager.isTimerRunning = false;
-        elapsedTime = Time.time - gameManager.startTime;
-
-        minutes = (int)(elapsedTime / 60);
-        PlayerPrefs.SetInt("minutes", minutes);
-        seconds = (int)(elapsedTime % 60);
-        PlayerPrefs.SetInt("seconds", seconds);
-
-        timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-        TimerText.text = timerString;
-
     }
 }

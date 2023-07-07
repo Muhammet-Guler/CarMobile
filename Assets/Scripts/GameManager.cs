@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public bool isTimerRunning { get; set; }
     public float startTime { get; set; }
 
+    public bool isFinished { get; set; }
+
     private void Awake()
     {
         if (instance != null && instance != this)
