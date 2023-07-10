@@ -113,6 +113,8 @@ public class Car : MonoBehaviour
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+        sayac = 1;
+        ManagerGame.isFinished = false;
         //timer.ResetTimer();
     }
     public void Exit()
