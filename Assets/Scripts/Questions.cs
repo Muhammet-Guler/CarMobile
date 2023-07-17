@@ -57,6 +57,7 @@ public class Questions : MonoBehaviour
             {
                 Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(minValue1, 5)).ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
+
             }
             Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue1, maxValue1).ToString("0.00");
             double.Parse(Btn2.GetComponentInChildren<Text>().text);
@@ -74,6 +75,15 @@ public class Questions : MonoBehaviour
             {
                 Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 5)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
+            }
+
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) % 1 == 0)
+            {
+                Btn1.GetComponentInChildren<Text>().text = double.Parse(Btn1.GetComponentInChildren<Text>().text).ToString("0");
+            }
+            if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
+            {
+                Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
             }
         }
 
@@ -109,6 +119,14 @@ public class Questions : MonoBehaviour
                 Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) % 1 == 0)
+            {
+                Btn1.GetComponentInChildren<Text>().text = double.Parse(Btn1.GetComponentInChildren<Text>().text).ToString("0");
+            }
+            if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
+            {
+                Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
+            }
         }
 
     }
@@ -130,6 +148,7 @@ public class Questions : MonoBehaviour
 
         if (Math.Round(double.Parse(btn.GetComponentInChildren<Text>().text), 2) == Math.Round(TransactionResult, 2))
         {
+            Conclusion.text = "Doðru";
             btn.GetComponent<Image>().color = Color.green;
             moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
             moveSpeed += 5f;
