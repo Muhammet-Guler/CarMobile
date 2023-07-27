@@ -11,30 +11,29 @@ public class Questions : MonoBehaviour
     public UnityEngine.UI.Button Btn1, Btn2;
     int OperatorSign;
     double N1, N2, TransactionResult;
-    public float Speed=0f;
+    public float Speed = 0f;
     public Car car;
     public float moveSpeed;
     public int deger;
-    public int Dogru=0;
-    public int Yanlis=0;
+    public int Dogru = 0;
+    public int Yanlis = 0;
     public UnityEngine.UI.Text DogruSayisi;
     public UnityEngine.UI.Text YanlisSayisi;
     public GameObject Confetti;
     public GameObject Correct;
     public GameObject False;
     public Timer2 Timer;
-    public GoogleAnalyticsAndroidV4 googleAnalytics;
 
-    public const int minValue1 = 1;
-    public const int maxValue1 = 10;
-    public const int minValue2 = 10;
-    public const int maxValue2 = 300;
+    public const int KolayMinValue = 1;
+    public const int KolayMaxValue = 10;
+    public const int ZorMinValue = 1;
+    public const int ZorMaxValue = 50;
     // Start is called before the first frame update
     void Start()
     {
         // Dogru ve yanlis sayilari çaðýrýlýyor
-        Dogru=PlayerPrefs.GetInt("Dogru");
-        Yanlis=PlayerPrefs.GetInt("Yanlis");
+        Dogru = PlayerPrefs.GetInt("Dogru");
+        Yanlis = PlayerPrefs.GetInt("Yanlis");
 
         Question();
         //zorluk seviyesi için degeri çekiyoruz
@@ -46,20 +45,20 @@ public class Questions : MonoBehaviour
         //("0.00") iþlemi virgülden sonra 2 basamak yazdýrmamýzý saðlýyor
         if (deger == 0)
         {
-            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue1, maxValue1).ToString("0.00");
+            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
             double.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 5)
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 4)
             {
                 Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(minValue1, 5)).ToString("0.00");
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
 
             }
-            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue1, maxValue1).ToString("0.00");
+            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
             double.Parse(Btn2.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
             {
@@ -68,12 +67,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 5)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 5)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
 
@@ -84,25 +83,29 @@ public class Questions : MonoBehaviour
             if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
             {
                 Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
+            }
+            if (TransactionResult > 100)
+            {
+                Start();
             }
         }
 
 
         if (deger == 1)
         {
-            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue2, maxValue2).ToString("0.00");
+            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
             double.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 150)
+            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 25)
             {
                 Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
+                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn1.GetComponentInChildren<Text>().text);
             }
-            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(minValue2, maxValue2).ToString("0.00");
+            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
             double.Parse(Btn2.GetComponentInChildren<Text>().text);
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
             {
@@ -111,12 +114,12 @@ public class Questions : MonoBehaviour
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(minValue1, maxValue1)).ToString("0.00");
+                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
                 double.Parse(Btn2.GetComponentInChildren<Text>().text);
             }
             if (double.Parse(Btn1.GetComponentInChildren<Text>().text) % 1 == 0)
@@ -126,6 +129,10 @@ public class Questions : MonoBehaviour
             if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
             {
                 Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
+            }
+            if (TransactionResult > 500)
+            {
+                Start();
             }
         }
 
@@ -176,59 +183,6 @@ public class Questions : MonoBehaviour
         }
     }
 
-    public void AnswerControl1()
-    {
-        if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == TransactionResult)
-        {
-            
-            Conclusion.text = "Doðru";
-            Btn1.GetComponent<Image>().color = Color.green;
-            moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-            moveSpeed += 5f;
-            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            Dogru = Dogru + 1;
-            PlayerPrefs.SetInt("Dogru", Dogru);
-            
-        
-        }
-        if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
-        {
-            Conclusion.text = "Yanlýþ";
-            Btn1.GetComponent<Image>().color = Color.red;
-            Yanlis = Yanlis + 1;
-            PlayerPrefs.SetInt("Yanlis", Yanlis);
-            
-        }
-        
-    }
-    public void AnswerControl2()
-    {
-        if (double.Parse(Btn2.GetComponentInChildren<Text>().text) == TransactionResult)
-        {
-            Conclusion.text = "Doðru";
-            Btn2.GetComponent<Image>().color = Color.green;
-            moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-            moveSpeed += 5f;
-            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            Dogru = Dogru + 1;
-            PlayerPrefs.SetInt("Dogru", Dogru);
-            Confetti.SetActive(true);
-            Correct.SetActive(true);
-            Timer.finnished = true;
-            Invoke("GoBack", 3f);
-
-        }
-        if (double.Parse(Btn2.GetComponentInChildren<Text>().text) != TransactionResult)
-        {
-            Conclusion.text = "Yanlýþ";
-            Btn2.GetComponent<Image>().color = Color.red;
-            Yanlis = Yanlis + 1;
-            PlayerPrefs.SetInt("Yanlis", Yanlis);
-            False.SetActive(true);
-            Timer.finnished = true;
-            Invoke("GoBack", 3f);
-        }
-    }
     //Random sayý ve random operator oluþturarak her seferinde farklý sorular oluþturuyoruz
     public void Question()
     {
@@ -304,9 +258,9 @@ public class Questions : MonoBehaviour
     //Doðru yanlýþ sayýlarýný tutup yazdýrdýðýmýz fonksiyon
     public void DogruYanlis()
     {
-        Dogru= PlayerPrefs.GetInt("Dogru");
+        Dogru = PlayerPrefs.GetInt("Dogru");
         Yanlis = PlayerPrefs.GetInt("Yanlis");
-        DogruSayisi.text=Dogru.ToString();
-        YanlisSayisi.text=Yanlis.ToString(); 
+        DogruSayisi.text = Dogru.ToString();
+        YanlisSayisi.text = Yanlis.ToString();
     }
 }

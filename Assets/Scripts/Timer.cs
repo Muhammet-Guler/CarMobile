@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    public UnityEngine.UI.Text TimerText; 
+    public UnityEngine.UI.Text TimerText;
     private static float carSceneTimer = 0f;
     public string timerString;
     public Car car;
@@ -25,7 +25,7 @@ public class Timer : MonoBehaviour
         gameManager = GameObject.FindObjectOfType<GameManager>();
         if (gameManager.isFinished == false)
         {
-            if (scene.buildIndex == 1 &&Time.timeScale==1f)
+            if (scene.buildIndex == 1 && Time.timeScale == 1f)
             {
                 carSceneTimer += Time.unscaledDeltaTime;
                 //var ts = TimeSpan.FromSeconds(carSceneTimer);
@@ -40,8 +40,13 @@ public class Timer : MonoBehaviour
                     carSceneTimer += 1f;
                     SceneManager.LoadScene(2);
                 }
+                if (minutes == 1 && seconds == 0 || minutes == 2 && seconds == 0 || minutes == 3 && seconds == 0 || minutes == 4 && seconds == 0 || minutes == 5 && seconds == 0)
+                {
+                    carSceneTimer += 1f;
+                    SceneManager.LoadScene(2);
+                }
             }
-            if (car.sayac==1)
+            if (car.sayac == 1)
             {
                 carSceneTimer = 0f;
             }

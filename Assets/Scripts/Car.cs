@@ -6,27 +6,31 @@ using UnityEngine.UI;
 
 public class Car : MonoBehaviour
 {
-	public float moveSpeed=10f; // Nesnenin hareket hýzý
-	public bool stop= false;
-	public SpeedIndicator speedIndicator;
-	public Timer timer;
+    public float moveSpeed = 10f; // Nesnenin hareket hýzý
+    public bool stop = false;
+    public SpeedIndicator speedIndicator;
+    public Timer timer;
     public Vector3 carPosition;
     public GameManager ManagerGame;
     public GameObject RestartAndQuit;
     public Questions Questions;
     public GameObject PausePanel;
-    public GoogleAnalyticsAndroidV4 googleAnalytics;
-    public int sayac=0;
+    public int sayac = 0;
+    AudioSource SesKaynak;
+    public int deger;
     void Start()
-	{
-		Time.timeScale = 1f;
+    {
+        Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
+        SesKaynak = gameObject.GetComponent<AudioSource>();
+        SesOynat();
+        IlkBaslangic();
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
-	void Update()
-	{
+    void Update()
+    {
         Scene scene = SceneManager.GetActiveScene();
         ManagerGame = GameObject.FindObjectOfType<GameManager>();
         if (ManagerGame.isFinished == false)
@@ -64,7 +68,16 @@ public class Car : MonoBehaviour
 
             CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
+            SesDurdur();
         }
+    }
+    public void SesOynat()
+    {
+        SesKaynak.Play();
+    }
+    public void SesDurdur()
+    {
+        SesKaynak.Stop();
     }
     void OnDestroy()
     {
@@ -126,12 +139,14 @@ public class Car : MonoBehaviour
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
+        SesDurdur();
     }
     //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
+        SesOynat();
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
@@ -143,5 +158,14 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
         //timer.ResetTimer();
+    }
+    public void IlkBaslangic()
+    {
+        if (deger==0||deger==1)
+        {
+            carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+            transform.position = carPosition;
+
+        }
     }
 }
