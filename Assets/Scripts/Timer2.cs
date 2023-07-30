@@ -8,8 +8,9 @@ public class Timer2 : MonoBehaviour
     public UnityEngine.UI.Text TimerText;
     public float StartTime;
     public bool finnished = false;
-    public Questions Questions;
-    public float geriSayimSure = 10f;
+    Questions Questions;
+
+    private float geriSayimSure = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class Timer2 : MonoBehaviour
     // Soru ekranýmýz için süre baþlatýyoruz 10 saniye dolduðunda önceki ekrana geri dönüyoruz
     void Update()
     {
+
     }
     System.Collections.IEnumerator GeriSayimiBaslat()
     {
@@ -38,8 +40,6 @@ public class Timer2 : MonoBehaviour
             Time.timeScale = 0f;
             Finnish();
             SceneManager.LoadScene(1);
-            Questions.Bos = Questions.Bos + 1;
-            PlayerPrefs.SetInt("Bos", Questions.Bos);
         }
     }
     public void Finnish()

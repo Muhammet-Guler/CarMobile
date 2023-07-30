@@ -1132,7 +1132,6 @@ MonoBehaviour:
   Questions: {fileID: 0}
   PausePanel: {fileID: 0}
   sayac: 0
-  deger: 0
 --- !u!1 &1090398036
 GameObject:
   m_ObjectHideFlags: 0
@@ -6426,10 +6425,8 @@ MonoBehaviour:
   deger: 0
   Dogru: 0
   Yanlis: 0
-  Bos: 0
   DogruSayisi: {fileID: 0}
   YanlisSayisi: {fileID: 0}
-  BosSayisi: {fileID: 0}
   Confetti: {fileID: 1249890660}
   Correct: {fileID: 506033472}
   False: {fileID: 81269224}
@@ -6606,8 +6603,6 @@ MonoBehaviour:
   TimerText: {fileID: 1956054967}
   StartTime: 0
   finnished: 0
-  Questions: {fileID: 1538352595}
-  geriSayimSure: 10
 --- !u!1 &2021349359
 GameObject:
   m_ObjectHideFlags: 0

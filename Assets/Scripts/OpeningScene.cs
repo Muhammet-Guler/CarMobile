@@ -8,8 +8,6 @@ public class OpeningScene : MonoBehaviour
 {
     public GameManager managerGame;
     public int deger;
-    public int ses;
-    public UnityEngine.UI.Text SoundInfo;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,17 +35,5 @@ public class OpeningScene : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
-    }
-    public void SesAc()
-    {
-        ses = 1;
-        PlayerPrefs.SetInt("ses", ses);
-        SoundInfo.text = "Ses Açýk";
-    }
-    public void SesKapa()
-    {
-        ses = 0;
-        PlayerPrefs.SetInt("ses", ses);
-        SoundInfo.text = "Ses Kapalý";
     }
 }
