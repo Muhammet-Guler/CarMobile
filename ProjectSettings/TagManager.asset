@@ -5,8 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - finish
-  - prefabs
-  - prefabs2
   layers:
   - Default
   - TransparentFX

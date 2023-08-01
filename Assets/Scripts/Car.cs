@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,17 +17,15 @@ public class Car : MonoBehaviour
     public Questions Questions;
     public GameObject PausePanel;
     public int sayac = 0;
-    AudioSource SesKaynak;
+    public Sound sound;
     public int deger;
-    public GameObject Road;
-    public GameObject Road2;
+    int ses;
     void Start()
     {
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
-        SesKaynak = gameObject.GetComponent<AudioSource>();
-        SesOynat();
+       
         IlkBaslangic();
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
@@ -56,10 +55,10 @@ public class Car : MonoBehaviour
     {
         if (other.tag == "finish")
         {
-            RestartAndQuit.SetActive(true);
-            Questions.DogruYanlis();
             Time.timeScale = 0f;
             moveSpeed = 0f;
+            RestartAndQuit.SetActive(true);
+            Questions.DogruYanlis();
             //timer.StopTimer();
             if (moveSpeed > 60f)
             {
@@ -70,26 +69,9 @@ public class Car : MonoBehaviour
 
             CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
-            SesDurdur();
-        }
-        if (other.tag == "prefabs")
-        {
-            Road.transform.position += new Vector3(0, 0, transform.GetChild(0).GetComponent<Renderer>().bounds.size.z * 30);
-        }
-        if (other.tag=="prefabs2")
-        {
-
-            Road2.transform.position += new Vector3(0, 0, transform.GetChild(0).GetComponent<Renderer>().bounds.size.z * 30);
         }
     }
-    public void SesOynat()
-    {
-        SesKaynak.Play();
-    }
-    public void SesDurdur()
-    {
-        SesKaynak.Stop();
-    }
+    
     void OnDestroy()
     {
         SaveCarPosition();
@@ -115,7 +97,7 @@ public class Car : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -123,6 +105,8 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+        Questions.Bos = 0;
+        PlayerPrefs.SetInt("Bos", Questions.Bos);
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -133,7 +117,9 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        Questions.Bos = 0;
+        PlayerPrefs.SetInt("Bos", Questions.Bos);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -150,20 +136,19 @@ public class Car : MonoBehaviour
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
-        SesDurdur();
+        sound.PauseSound();
     }
     //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
-        SesOynat();
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
         sayac = 1;
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -172,11 +157,13 @@ public class Car : MonoBehaviour
     }
     public void IlkBaslangic()
     {
-        if (deger==0||deger==1)
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.buildIndex == 0)
         {
-            carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+            carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
             transform.position = carPosition;
-
         }
     }
+
+
 }
