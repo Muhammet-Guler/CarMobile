@@ -25,8 +25,6 @@ public class Car : MonoBehaviour
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
-       
-        IlkBaslangic();
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
@@ -69,6 +67,7 @@ public class Car : MonoBehaviour
 
             CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
+            sound.PauseSound();
         }
     }
     
@@ -154,15 +153,6 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
         //timer.ResetTimer();
-    }
-    public void IlkBaslangic()
-    {
-        Scene scene = SceneManager.GetActiveScene();
-        if (scene.buildIndex == 0)
-        {
-            carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
-            transform.position = carPosition;
-        }
     }
 
 

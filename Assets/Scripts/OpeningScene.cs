@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class OpeningScene : MonoBehaviour
     public int deger;
     public int ses;
     public UnityEngine.UI.Text SoundInfo;
+    public Car car;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +29,14 @@ public class OpeningScene : MonoBehaviour
         SceneManager.LoadScene(1);
         deger = 0;
         PlayerPrefs.SetInt("deger",deger);
+        ilkBaslangic();
     }
     public void Zor()
     {
         SceneManager.LoadScene(1);
         deger = 1;
         PlayerPrefs.SetInt("deger", deger);
+        ilkBaslangic();
     }
     public void Exit()
     {
@@ -49,5 +53,13 @@ public class OpeningScene : MonoBehaviour
         ses = 0;
         PlayerPrefs.SetInt("ses", ses);
         SoundInfo.text = "Ses Kapalý";
+    }
+    public void ilkBaslangic()
+    {
+        car.carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+        transform.position = car.carPosition;
+        car.moveSpeed = 10f;
+        PlayerPrefs.SetFloat("ArabaninHizi", car.moveSpeed);
+
     }
 }

@@ -1199,6 +1199,63 @@ MonoBehaviour:
   deger: 0
   ses: 0
   SoundInfo: {fileID: 0}
+  car: {fileID: 1966730004}
+--- !u!1 &1966730002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966730003}
+  - component: {fileID: 1966730004}
+  m_Layer: 0
+  m_Name: car
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1966730003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966730002}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -69.326294, y: 2.1137238, z: -298.44763}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1966730004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966730002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7074a228281361342ad6c2f10720eb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  stop: 0
+  speedIndicator: {fileID: 0}
+  timer: {fileID: 0}
+  carPosition: {x: 0, y: 0, z: 0}
+  ManagerGame: {fileID: 0}
+  RestartAndQuit: {fileID: 0}
+  Questions: {fileID: 0}
+  PausePanel: {fileID: 0}
+  sayac: 0
+  sound: {fileID: 0}
+  deger: 0
 --- !u!1 &2141734721
 GameObject:
   m_ObjectHideFlags: 0
