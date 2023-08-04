@@ -18,6 +18,12 @@ public class Timer : MonoBehaviour
     public int highScoreSeconds = 99;
     public UnityEngine.UI.Text highScoreText;
     public GameObject PausePanel;
+    public bool SureSay=true;
+
+    private void Start()
+    {
+        CarInactivity();
+    }
 
     private void Update()
     {
@@ -25,7 +31,7 @@ public class Timer : MonoBehaviour
         gameManager = GameObject.FindObjectOfType<GameManager>();
         if (gameManager.isFinished == false)
         {
-            if (scene.buildIndex == 1 && Time.timeScale == 1f)
+            if (scene.buildIndex == 1 && Time.timeScale == 1f&&SureSay==true)
             {
                 carSceneTimer += Time.unscaledDeltaTime;
                 //var ts = TimeSpan.FromSeconds(carSceneTimer);
@@ -73,6 +79,13 @@ public class Timer : MonoBehaviour
             PlayerPrefs.SetInt("HighScoreSeconds", highScoreSeconds);
             PlayerPrefs.Save();
             highScoreText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+        }
+    }
+    public void CarInactivity()
+    {
+        if (car.moveSpeed==0f || Time.timeScale==0f)
+        {
+            SureSay = false;
         }
     }
 }

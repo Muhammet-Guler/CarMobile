@@ -135,13 +135,14 @@ public class Car : MonoBehaviour
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
-        sound.PauseSound();
+        AudioListener.volume = 0f;
     }
     //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
+        AudioListener.volume = 1f;
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
