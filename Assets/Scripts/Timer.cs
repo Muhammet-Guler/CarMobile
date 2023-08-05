@@ -41,16 +41,16 @@ public class Timer : MonoBehaviour
                 highScoreMinutes = PlayerPrefs.GetInt("HighScoreMinutes");
                 highScoreSeconds = PlayerPrefs.GetInt("HighScoreSeconds");
                 highScoreText.text = string.Format("{0:0}:{1:00}", highScoreMinutes, highScoreSeconds);
-                if (seconds % 5 == 0 && seconds != 0)
-                {
-                    carSceneTimer += 1f;
-                    SceneManager.LoadScene(2);
-                }
-                if (minutes == 1 && seconds == 0 || minutes == 2 && seconds == 0 || minutes == 3 && seconds == 0 || minutes == 4 && seconds == 0 || minutes == 5 && seconds == 0)
-                {
-                    carSceneTimer += 1f;
-                    SceneManager.LoadScene(2);
-                }
+                //if (seconds % 5 == 0 && seconds != 0)
+                //{
+                //    carSceneTimer += 1f;
+                //    SceneManager.LoadScene(2);
+                //}
+                //if (minutes == 1 && seconds == 0 || minutes == 2 && seconds == 0 || minutes == 3 && seconds == 0 || minutes == 4 && seconds == 0 || minutes == 5 && seconds == 0)
+                //{
+                //    carSceneTimer += 1f;
+                //    SceneManager.LoadScene(2);
+                //}
             }
             if (car.sayac == 1)
             {

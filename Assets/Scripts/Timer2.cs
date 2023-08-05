@@ -9,7 +9,7 @@ public class Timer2 : MonoBehaviour
     public float StartTime;
     public bool finnished = false;
     public Questions Questions;
-    public float geriSayimSure = 10f;
+    public float geriSayimSure = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,11 +35,11 @@ public class Timer2 : MonoBehaviour
         if (geriSayimSure == 0f)
         {
             TimerText.text = "Süre Bitti!";
-            Time.timeScale = 0f;
             Finnish();
-            SceneManager.LoadScene(1);
             Questions.Bos = Questions.Bos + 1;
             PlayerPrefs.SetInt("Bos", Questions.Bos);
+            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+            SceneManager.LoadScene(1);
         }
     }
     public void Finnish()

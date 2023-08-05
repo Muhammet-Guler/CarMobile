@@ -1127,12 +1127,15 @@ MonoBehaviour:
   speedIndicator: {fileID: 0}
   timer: {fileID: 0}
   carPosition: {x: 0, y: 0, z: 0}
+  PuzzlePosition: {x: 0, y: 0, z: 0}
   ManagerGame: {fileID: 0}
   RestartAndQuit: {fileID: 0}
   Questions: {fileID: 0}
   PausePanel: {fileID: 0}
   sayac: 0
+  sound: {fileID: 0}
   deger: 0
+  Puzzle: {fileID: 0}
 --- !u!1 &1090398036
 GameObject:
   m_ObjectHideFlags: 0
@@ -6607,7 +6610,7 @@ MonoBehaviour:
   StartTime: 0
   finnished: 0
   Questions: {fileID: 1538352595}
-  geriSayimSure: 10
+  geriSayimSure: 5
 --- !u!1 &2021349359
 GameObject:
   m_ObjectHideFlags: 0

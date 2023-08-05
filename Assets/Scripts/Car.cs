@@ -12,6 +12,7 @@ public class Car : MonoBehaviour
     public SpeedIndicator speedIndicator;
     public Timer timer;
     public Vector3 carPosition;
+    public Vector3 PuzzlePosition;
     public GameManager ManagerGame;
     public GameObject RestartAndQuit;
     public Questions Questions;
@@ -19,12 +20,17 @@ public class Car : MonoBehaviour
     public int sayac = 0;
     public Sound sound;
     public int deger;
+    public GameObject Puzzle;
     int ses;
     void Start()
     {
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
+        float savedZPosition = PlayerPrefs.GetFloat("KüpZPosition", PuzzlePosition.z);
+        Vector3 newPosition = PuzzlePosition;
+        newPosition.z = savedZPosition;
+        PuzzlePosition = newPosition;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
@@ -69,8 +75,20 @@ public class Car : MonoBehaviour
             timer.CheckHighScore();
             sound.PauseSound();
         }
+        if (other.tag == "puzzle")
+        {
+
+            float geriSayimSure = PlayerPrefs.GetFloat("geriSayimSure");
+            
+            Vector3 newPosition = PuzzlePosition;
+            newPosition.z += moveSpeed * (5-(geriSayimSure-1));
+            PuzzlePosition = newPosition;
+
+            PlayerPrefs.SetFloat("KüpZPosition", newPosition.z);
+            SceneManager.LoadScene(2); ;
+        }
     }
-    
+
     void OnDestroy()
     {
         SaveCarPosition();
@@ -91,6 +109,7 @@ public class Car : MonoBehaviour
         float posZ = PlayerPrefs.GetFloat("CarPositionZ");
         carPosition = new Vector3(posX, posY, posZ);
         transform.position = carPosition;
+
     }
 
 
@@ -106,6 +125,8 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
         Questions.Bos = 0;
         PlayerPrefs.SetInt("Bos", Questions.Bos);
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -120,6 +141,8 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Bos", Questions.Bos);
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         sayac = 1;
@@ -150,6 +173,8 @@ public class Car : MonoBehaviour
         sayac = 1;
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);

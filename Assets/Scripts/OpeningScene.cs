@@ -42,22 +42,12 @@ public class OpeningScene : MonoBehaviour
     {
         Application.Quit();
     }
-    public void SesAc()
-    {
-        ses = 1;
-        PlayerPrefs.SetInt("ses", ses);
-        SoundInfo.text = "Ses Açýk";
-    }
-    public void SesKapa()
-    {
-        ses = 0;
-        PlayerPrefs.SetInt("ses", ses);
-        SoundInfo.text = "Ses Kapalý";
-    }
     public void ilkBaslangic()
     {
         car.carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = car.carPosition;
+        car.PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", car.PuzzlePosition.z);
         car.moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", car.moveSpeed);
 

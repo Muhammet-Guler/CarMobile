@@ -171,6 +171,8 @@ public class Questions : MonoBehaviour
             Btn1.interactable = false;
             Btn2.interactable = false;
             Invoke("GoBack", 3f);
+            float geriSayimSure = Timer.geriSayimSure;
+            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
         }
         else
         {
@@ -183,6 +185,8 @@ public class Questions : MonoBehaviour
             Btn1.interactable = false;
             Btn2.interactable = false;
             Invoke("GoBack", 3f);
+            float geriSayimSure = Timer.geriSayimSure;
+            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
         }
     }
 
@@ -257,6 +261,9 @@ public class Questions : MonoBehaviour
     {
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+        car.PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", car.PuzzlePosition.z);
     }
     //Doðru yanlýþ sayýlarýný tutup yazdýrdýðýmýz fonksiyon
     public void DogruYanlis()
