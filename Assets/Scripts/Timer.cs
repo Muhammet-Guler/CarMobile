@@ -61,15 +61,11 @@ public class Timer : MonoBehaviour
 
     public void CheckHighScore()
     {
+        highScoreMinutes = 99;
+        PlayerPrefs.SetInt("HighScoreMinutes", highScoreMinutes);
+        highScoreSeconds = 99;
+        PlayerPrefs.SetInt("HighScoreSeconds", highScoreSeconds);
 
-        if (highScoreMinutes == 0)
-        {
-            highScoreMinutes = 10;
-        }
-        if (highScoreSeconds == 0)
-        {
-            highScoreSeconds = 99;
-        }
         if (minutes < highScoreMinutes || (minutes == highScoreMinutes && seconds < highScoreSeconds))
         {
             highScoreMinutes = minutes;

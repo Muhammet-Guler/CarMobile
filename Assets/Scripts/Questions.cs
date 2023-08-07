@@ -173,6 +173,10 @@ public class Questions : MonoBehaviour
             Invoke("GoBack", 3f);
             float geriSayimSure = Timer.geriSayimSure;
             PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+            if (Timer.geriSayimSure<=2)
+            {
+                Timer.Finnish();
+            }
         }
         else
         {
@@ -187,6 +191,10 @@ public class Questions : MonoBehaviour
             Invoke("GoBack", 3f);
             float geriSayimSure = Timer.geriSayimSure;
             PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+            if (Timer.geriSayimSure <= 2)
+            {
+                Timer.Finnish();
+            }
         }
     }
 

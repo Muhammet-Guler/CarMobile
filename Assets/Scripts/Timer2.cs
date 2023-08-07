@@ -46,5 +46,6 @@ public class Timer2 : MonoBehaviour
     {
         finnished = true;
         TimerText.color = Color.red;
+        StopCoroutine(GeriSayimiBaslat());
     }
 }
