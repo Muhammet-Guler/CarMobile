@@ -17,10 +17,8 @@ public class Questions : MonoBehaviour
     public int deger;
     public int Dogru = 0;
     public int Yanlis = 0;
-    public int Bos=0;
     public UnityEngine.UI.Text DogruSayisi;
     public UnityEngine.UI.Text YanlisSayisi;
-    public UnityEngine.UI.Text BosSayisi;
     public GameObject Confetti;
     public GameObject Correct;
     public GameObject False;
@@ -36,7 +34,6 @@ public class Questions : MonoBehaviour
         // Dogru ve yanlis sayilari çaðýrýlýyor
         Dogru = PlayerPrefs.GetInt("Dogru");
         Yanlis = PlayerPrefs.GetInt("Yanlis");
-        Bos = PlayerPrefs.GetInt("Bos");
 
         Question();
         //zorluk seviyesi için degeri çekiyoruz
@@ -263,9 +260,7 @@ public class Questions : MonoBehaviour
     {
         Dogru = PlayerPrefs.GetInt("Dogru");
         Yanlis = PlayerPrefs.GetInt("Yanlis");
-        Bos = PlayerPrefs.GetInt("Bos");
         DogruSayisi.text = Dogru.ToString();
         YanlisSayisi.text = Yanlis.ToString();
-        BosSayisi.text = Bos.ToString();
     }
 }

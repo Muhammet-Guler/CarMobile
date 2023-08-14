@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class Car : MonoBehaviour
 {
@@ -17,16 +17,21 @@ public class Car : MonoBehaviour
     public Questions Questions;
     public GameObject PausePanel;
     public int sayac = 0;
-    public Sound sound;
+    AudioSource SesKaynak;
     public int deger;
-    int ses;
+    public GameObject Road;
+    public GameObject Road2;
+    public Transform[] Roads;
     void Start()
     {
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
-       
-        IlkBaslangic();
+        SesKaynak = gameObject.GetComponent<AudioSource>();
+        SesOynat();
+        //IlkBaslangic();
+        carRb=GetComponent<Rigidbody>();
+        carRb.centerOfMass = _centerOfMass;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
@@ -47,6 +52,7 @@ public class Car : MonoBehaviour
                 carPosition = transform.position;
             }
         }
+        AnimateWheels();
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
@@ -55,10 +61,10 @@ public class Car : MonoBehaviour
     {
         if (other.tag == "finish")
         {
-            Time.timeScale = 0f;
-            moveSpeed = 0f;
             RestartAndQuit.SetActive(true);
             Questions.DogruYanlis();
+            Time.timeScale = 0f;
+            moveSpeed = 0f;
             //timer.StopTimer();
             if (moveSpeed > 60f)
             {
@@ -69,9 +75,28 @@ public class Car : MonoBehaviour
 
             CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
+            SesDurdur();
+        }
+        if (other.tag == "prefabs")
+        {
+            Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + (float)92.5f);
+            Array.Reverse(Roads);
+        }
+        if (other.tag=="prefabs2")
+        {
+
+            //Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + 40f);
+            //Array.Reverse(Roads);
         }
     }
-    
+    public void SesOynat()
+    {
+        SesKaynak.Play();
+    }
+    public void SesDurdur()
+    {
+        SesKaynak.Stop();
+    }
     void OnDestroy()
     {
         SaveCarPosition();
@@ -97,7 +122,7 @@ public class Car : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -105,8 +130,6 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-        Questions.Bos = 0;
-        PlayerPrefs.SetInt("Bos", Questions.Bos);
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -117,9 +140,7 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-        Questions.Bos = 0;
-        PlayerPrefs.SetInt("Bos", Questions.Bos);
-        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -136,19 +157,20 @@ public class Car : MonoBehaviour
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
-        sound.PauseSound();
+        SesDurdur();
     }
     //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
+        SesOynat();
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
         sayac = 1;
-        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -157,13 +179,79 @@ public class Car : MonoBehaviour
     }
     public void IlkBaslangic()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        if (scene.buildIndex == 0)
+        if (deger==0||deger==1)
         {
-            carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
+            carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
             transform.position = carPosition;
+
         }
     }
+    public enum ControlMode
+    {
+        Buttons
+    };
 
+    public enum Axel
+    {
+        Front,
+        Rear
+    }
+    [Serializable]
+    public struct Wheel
+    {
+        public GameObject whellModel;
+        public WheelCollider whelCollider;
+        public Axel axel;
+    }
+    public ControlMode control;
+    public float maxAcceleration = 30.0f;
+    public float brakeAcceleration = 50.0f;
+    public float turnSensitivity = 1.0f;
+    public float maxSteerAngle = 30.0f;
 
+    public List<Wheel> wheels;
+    //float moveInput;
+    float steerInput;
+    private Rigidbody carRb;
+    public Vector3 _centerOfMass;
+
+    public void SteerInput(float input)
+    {
+        steerInput = input;
+    }
+
+    void Move()
+    {
+        foreach (var wheel in wheels)
+        {
+            wheel.whelCollider.motorTorque = moveSpeed;
+        }
+    }
+    private void LateUpdate()
+    {
+        Move();
+        Steer();
+    }
+    void Steer()
+    {
+        foreach(var wheel in wheels)
+        {
+            if (wheel.axel==Axel.Front)
+            {
+                var _steerAngle = steerInput * turnSensitivity * maxSteerAngle;
+                wheel.whelCollider.steerAngle = Mathf.Lerp(wheel.whelCollider.steerAngle, _steerAngle, 0.6f);
+            }
+        }
+    }
+    void AnimateWheels()
+    {
+        foreach( var wheel in wheels)
+        {
+            Quaternion rot;
+            Vector3 pos;
+            wheel.whelCollider.GetWorldPose(out pos, out rot);
+            wheel.whellModel.transform.position = pos;
+            wheel.whellModel.transform.rotation = rot;
+        }
+    }
 }
