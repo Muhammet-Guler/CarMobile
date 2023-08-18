@@ -17,8 +17,10 @@ public class Questions : MonoBehaviour
     public int deger;
     public int Dogru = 0;
     public int Yanlis = 0;
+    public int Bos = 0;
     public UnityEngine.UI.Text DogruSayisi;
     public UnityEngine.UI.Text YanlisSayisi;
+    public UnityEngine.UI.Text BosSayisi;
     public GameObject Confetti;
     public GameObject Correct;
     public GameObject False;
@@ -34,6 +36,7 @@ public class Questions : MonoBehaviour
         // Dogru ve yanlis sayilari çaðýrýlýyor
         Dogru = PlayerPrefs.GetInt("Dogru");
         Yanlis = PlayerPrefs.GetInt("Yanlis");
+        Bos = PlayerPrefs.GetInt("Bos");
 
         Question();
         //zorluk seviyesi için degeri çekiyoruz
@@ -168,6 +171,12 @@ public class Questions : MonoBehaviour
             Btn1.interactable = false;
             Btn2.interactable = false;
             Invoke("GoBack", 3f);
+            float geriSayimSure = Timer.geriSayimSure;
+            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+            if (Timer.geriSayimSure <= 2)
+            {
+                Timer.Finnish();
+            }
         }
         else
         {
@@ -180,6 +189,12 @@ public class Questions : MonoBehaviour
             Btn1.interactable = false;
             Btn2.interactable = false;
             Invoke("GoBack", 3f);
+            float geriSayimSure = Timer.geriSayimSure;
+            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+            if (Timer.geriSayimSure <= 2)
+            {
+                Timer.Finnish();
+            }
         }
     }
 
@@ -254,13 +269,18 @@ public class Questions : MonoBehaviour
     {
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+        car.PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", car.PuzzlePosition.z);
     }
     //Doðru yanlýþ sayýlarýný tutup yazdýrdýðýmýz fonksiyon
     public void DogruYanlis()
     {
         Dogru = PlayerPrefs.GetInt("Dogru");
         Yanlis = PlayerPrefs.GetInt("Yanlis");
+        Bos = PlayerPrefs.GetInt("Bos");
         DogruSayisi.text = Dogru.ToString();
         YanlisSayisi.text = Yanlis.ToString();
+        BosSayisi.text = Bos.ToString();
     }
 }

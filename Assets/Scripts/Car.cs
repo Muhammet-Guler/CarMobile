@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+
 
 public class Car : MonoBehaviour
 {
@@ -22,15 +24,20 @@ public class Car : MonoBehaviour
     public GameObject Road;
     public GameObject Road2;
     public Transform[] Roads;
+    public Sound sound;
+    public GameObject Puzzle;
+    int ses;
+    public Vector3 PuzzlePosition;
     void Start()
     {
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
-        SesKaynak = gameObject.GetComponent<AudioSource>();
-        SesOynat();
-        //IlkBaslangic();
-        carRb=GetComponent<Rigidbody>();
+        float savedZPosition = PlayerPrefs.GetFloat("KüpZPosition", PuzzlePosition.z);
+        Vector3 newPosition = PuzzlePosition;
+        newPosition.z = savedZPosition;
+        PuzzlePosition = newPosition;
+        carRb =GetComponent<Rigidbody>();
         carRb.centerOfMass = _centerOfMass;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
@@ -88,6 +95,18 @@ public class Car : MonoBehaviour
             //Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + 40f);
             //Array.Reverse(Roads);
         }
+        if (other.tag == "puzzle")
+        {
+
+            float geriSayimSure = PlayerPrefs.GetFloat("geriSayimSure");
+
+            Vector3 newPosition = PuzzlePosition;
+            newPosition.z += moveSpeed * (5 - (geriSayimSure - 1));
+            PuzzlePosition = newPosition;
+
+            PlayerPrefs.SetFloat("KüpZPosition", newPosition.z);
+            SceneManager.LoadScene(2); 
+        }
     }
     public void SesOynat()
     {
@@ -122,7 +141,7 @@ public class Car : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -130,6 +149,10 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+        Questions.Bos = 0;
+        PlayerPrefs.SetInt("Bos", Questions.Bos);
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -140,8 +163,12 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
         Questions.Yanlis = 0;
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        Questions.Bos = 0;
+        PlayerPrefs.SetInt("Bos", Questions.Bos);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         sayac = 1;
@@ -157,25 +184,26 @@ public class Car : MonoBehaviour
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
-        SesDurdur();
+        AudioListener.volume = 0f;
     }
     //panel kapanýp devam ediliyor
     public void Continue()
     {
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
-        SesOynat();
+        AudioListener.volume = 1f;
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
         sayac = 1;
-        carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
+        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
+        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
+        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
-        //timer.ResetTimer();
     }
     public void IlkBaslangic()
     {
