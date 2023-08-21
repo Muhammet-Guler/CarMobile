@@ -7,8 +7,7 @@ TagManager:
   - finish
   - prefabs
   - prefabs2
-  - puzzle
-  - car
+  - engel
   layers:
   - Default
   - TransparentFX

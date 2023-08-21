@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 public class Questions : MonoBehaviour
 {
     public UnityEngine.UI.Text FirstNumber, SecondNumber, Operator, Conclusion;
+    public TMP_Text Text1, Text2;
     public UnityEngine.UI.Button Btn1, Btn2;
     int OperatorSign;
     double N1, N2, TransactionResult;
@@ -31,7 +33,7 @@ public class Questions : MonoBehaviour
     public const int ZorMinValue = 1;
     public const int ZorMaxValue = 50;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         // Dogru ve yanlis sayilari çaðýrýlýyor
         Dogru = PlayerPrefs.GetInt("Dogru");
@@ -48,44 +50,44 @@ public class Questions : MonoBehaviour
         //("0.00") iþlemi virgülden sonra 2 basamak yazdýrmamýzý saðlýyor
         if (deger == 0)
         {
-            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
-            double.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 4)
+            Text1.text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
+            double.Parse(Text1.text);
+            if (double.Parse(Text1.text) > 4)
             {
-                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
-                double.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Text1.text = TransactionResult.ToString("0.00");
+                double.Parse(Text1.GetComponentInChildren<Text>().text);
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Text1.text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                double.Parse(Text1.text);
 
             }
-            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
-            double.Parse(Btn2.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+            Text2.text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
+            double.Parse(Text2.text);
+            if (double.Parse(Text2.text) != TransactionResult)
             {
-                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = TransactionResult.ToString("0.00");
+                double.Parse(Text2.text);
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                double.Parse(Text2.text);
             }
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
+            if (double.Parse(Text1.text) == double.Parse(Text2.text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                double.Parse(Text2.text);
             }
 
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) % 1 == 0)
+            if (double.Parse(Text1.text) % 1 == 0)
             {
-                Btn1.GetComponentInChildren<Text>().text = double.Parse(Btn1.GetComponentInChildren<Text>().text).ToString("0");
+                Text1.text = double.Parse(Text1.text).ToString("0");
             }
-            if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
+            if (double.Parse(Text2.text) % 1 == 0)
             {
-                Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
+                Text2.text = double.Parse(Text2.text).ToString("0");
             }
             if (TransactionResult > 100)
             {

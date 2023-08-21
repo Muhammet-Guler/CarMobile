@@ -28,6 +28,7 @@ public class Car : MonoBehaviour
     public GameObject Puzzle;
     int ses;
     public Vector3 PuzzlePosition;
+    public GameObject CubesAnswers;
     void Start()
     {
         Time.timeScale = 1f;
@@ -106,6 +107,11 @@ public class Car : MonoBehaviour
 
             PlayerPrefs.SetFloat("KüpZPosition", newPosition.z);
             SceneManager.LoadScene(2); 
+        }
+        if (other.tag=="engel")
+        {
+            CubesAnswers.transform.position += new Vector3(0, 0, 30f);
+            Questions.Start();
         }
     }
     public void SesOynat()
