@@ -12,7 +12,7 @@ public class Questions : MonoBehaviour
     public TMP_Text Text1, Text2;
     public UnityEngine.UI.Button Btn1, Btn2;
     int OperatorSign;
-    double N1, N2, TransactionResult;
+    public double N1, N2, TransactionResult;
     public float Speed = 0f;
     public Car car;
     public float moveSpeed;

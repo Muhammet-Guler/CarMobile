@@ -8,6 +8,8 @@ TagManager:
   - prefabs
   - prefabs2
   - engel
+  - cevap1
+  - cevap2
   layers:
   - Default
   - TransparentFX

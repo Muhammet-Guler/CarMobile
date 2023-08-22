@@ -1618,7 +1618,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142514256}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3811035, y: 1.5369873, z: 0}
+  m_LocalPosition: {x: -1.3811035, y: 1.5369873, z: -0.35}
   m_LocalScale: {x: 3.7623, y: 4.8297963, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2513,7 +2513,7 @@ GameObject:
   - component: {fileID: 233647356}
   m_Layer: 0
   m_Name: Answers (2)
-  m_TagString: engel
+  m_TagString: cevap2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2526,7 +2526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233647355}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.2321205, y: 9.58345, z: -34.391754}
+  m_LocalPosition: {x: 4.31, y: 9.58345, z: -34.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4688,7 +4688,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384201540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -66.28212, y: -9.38094, z: -241.9047}
+  m_LocalPosition: {x: -66.28212, y: -9.38094, z: -201.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4804,7 +4804,7 @@ GameObject:
   - component: {fileID: 388336925}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: engel
+  m_TagString: cevap1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6531,6 +6531,9 @@ MonoBehaviour:
   Text2: {fileID: 1053937105}
   Btn1: {fileID: 0}
   Btn2: {fileID: 0}
+  N1: 0
+  N2: 0
+  TransactionResult: 0
   Speed: 0
   car: {fileID: 2025272061}
   moveSpeed: 0
@@ -7900,7 +7903,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673571005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7908,8 +7911,8 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0.42, y: -0.15}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673571007
@@ -7941,8 +7944,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7965,9 +7968,9 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 0
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -8023,7 +8026,7 @@ GameObject:
   - component: {fileID: 678800749}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: engel
+  m_TagString: cevap2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11420,7 +11423,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.67, y: -0.49}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1053937105
@@ -11452,8 +11455,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11476,9 +11479,9 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 0
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 17
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -14113,6 +14116,9 @@ MonoBehaviour:
   Text2: {fileID: 0}
   Btn1: {fileID: 0}
   Btn2: {fileID: 0}
+  N1: 0
+  N2: 0
+  TransactionResult: 0
   Speed: 0
   car: {fileID: 2025272061}
   moveSpeed: 0
@@ -19036,7 +19042,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806623984}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4408188, y: 9.58345, z: -34.391754}
+  m_LocalPosition: {x: 0.4408188, y: 9.58345, z: -34.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19859,8 +19865,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2
-  m_fontSizeBase: 2
+  m_fontSize: 1.5
+  m_fontSizeBase: 1.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -20846,6 +20852,16 @@ PrefabInstance:
       objectReference: {fileID: 344465995}
     - target: {fileID: 8061371677671157497, guid: 79d0ca8b77e301442afdb49f102e8aed,
         type: 3}
+      propertyPath: Cevap1
+      value: 
+      objectReference: {fileID: 673571007}
+    - target: {fileID: 8061371677671157497, guid: 79d0ca8b77e301442afdb49f102e8aed,
+        type: 3}
+      propertyPath: Cevap2
+      value: 
+      objectReference: {fileID: 1053937105}
+    - target: {fileID: 8061371677671157497, guid: 79d0ca8b77e301442afdb49f102e8aed,
+        type: 3}
       propertyPath: Puzzle
       value: 
       objectReference: {fileID: 0}
@@ -21000,7 +21016,7 @@ GameObject:
   - component: {fileID: 2018576659}
   m_Layer: 0
   m_Name: Answers (1)
-  m_TagString: engel
+  m_TagString: cevap1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22525,6 +22541,9 @@ MonoBehaviour:
   Text2: {fileID: 0}
   Btn1: {fileID: 0}
   Btn2: {fileID: 0}
+  N1: 0
+  N2: 0
+  TransactionResult: 0
   Speed: 0
   car: {fileID: 0}
   moveSpeed: 0

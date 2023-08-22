@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 
 public class Car : MonoBehaviour
@@ -29,6 +30,7 @@ public class Car : MonoBehaviour
     int ses;
     public Vector3 PuzzlePosition;
     public GameObject CubesAnswers;
+    public TMP_Text Cevap1, Cevap2;
     void Start()
     {
         Time.timeScale = 1f;
@@ -110,7 +112,37 @@ public class Car : MonoBehaviour
         }
         if (other.tag=="engel")
         {
-            CubesAnswers.transform.position += new Vector3(0, 0, 30f);
+            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+            Questions.Start();
+        }
+        if (other.tag=="cevap1")
+        {
+            if (Math.Round(double.Parse(Cevap1.text), 2) == Math.Round(Questions.TransactionResult, 2))
+            {
+                moveSpeed = moveSpeed + (int)Questions.TransactionResult;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            }
+            else
+            {
+                moveSpeed = moveSpeed - (int)Questions.TransactionResult;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            }
+            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+            Questions.Start();
+        }
+        if (other.tag == "cevap2")
+        {
+            if (Math.Round(double.Parse(Cevap2.text),2) == Math.Round(Questions.TransactionResult, 2))
+            {
+                moveSpeed =moveSpeed+(int)Questions.TransactionResult;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            }
+            else
+            {
+                moveSpeed = moveSpeed - (int)Questions.TransactionResult;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            }
+            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
             Questions.Start();
         }
     }
