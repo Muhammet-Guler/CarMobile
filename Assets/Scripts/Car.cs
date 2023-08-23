@@ -122,7 +122,12 @@ public class Car : MonoBehaviour
                 moveSpeed = moveSpeed + (int)Questions.TransactionResult;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             }
-            else
+            if (Questions.TransactionResult < 0)
+            {
+                moveSpeed = moveSpeed + (int)Questions.TransactionResult;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            }
+            else if (Questions.TransactionResult > 0)
             {
                 moveSpeed = moveSpeed - (int)Questions.TransactionResult;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -139,8 +144,17 @@ public class Car : MonoBehaviour
             }
             else
             {
-                moveSpeed = moveSpeed - (int)Questions.TransactionResult;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                if (Questions.TransactionResult<0)
+                {
+                    moveSpeed = moveSpeed + (int)Questions.TransactionResult;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+                else if (Questions.TransactionResult>0)
+                {
+                    moveSpeed = moveSpeed - (int)Questions.TransactionResult;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+                
             }
             CubesAnswers.transform.position += new Vector3(0, 0, 50f);
             Questions.Start();
