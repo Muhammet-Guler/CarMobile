@@ -12,7 +12,7 @@ public class Questions : MonoBehaviour
     public TMP_Text Text1, Text2;
     public UnityEngine.UI.Button Btn1, Btn2;
     int OperatorSign;
-    public double N1, N2, TransactionResult;
+    public float N1, N2, TransactionResult;
     public float Speed = 0f;
     public Car car;
     public float moveSpeed;
@@ -51,43 +51,43 @@ public class Questions : MonoBehaviour
         if (deger == 0)
         {
             Text1.text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
-            double.Parse(Text1.text);
-            if (double.Parse(Text1.text) > 4)
+            float.Parse(Text1.text);
+            if (float.Parse(Text1.text) > 4)
             {
                 Text1.text = TransactionResult.ToString("0.00");
-                double.Parse(Text1.GetComponentInChildren<Text>().text);
+                float.Parse(Text1.text);
             }
             else
             {
                 Text1.text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Text1.text);
+                float.Parse(Text1.text.ToString());
 
             }
             Text2.text = UnityEngine.Random.Range(KolayMinValue, KolayMaxValue).ToString("0.00");
-            double.Parse(Text2.text);
-            if (double.Parse(Text2.text) != TransactionResult)
+            float.Parse(Text2.text.ToString());
+            if (float.Parse(Text2.text.ToString()) != TransactionResult)
             {
                 Text2.text = TransactionResult.ToString("0.00");
-                double.Parse(Text2.text);
+                float.Parse(Text2.text.ToString());
             }
             else
             {
                 Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Text2.text);
+                float.Parse(Text2.text.ToString());
             }
-            if (double.Parse(Text1.text) == double.Parse(Text2.text))
+            if (float.Parse(Text1.text.ToString()) == double.Parse(Text2.text.ToString()))
             {
                 Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Text2.text);
+                float.Parse(Text2.text.ToString());
             }
 
-            if (double.Parse(Text1.text) % 1 == 0)
+            if (float.Parse(Text1.text) % 1 == 0)
             {
-                Text1.text = double.Parse(Text1.text).ToString("0");
+                Text1.text = float.Parse(Text1.text.ToString()).ToString("0");
             }
-            if (double.Parse(Text2.text) % 1 == 0)
+            if (float.Parse(Text2.text) % 1 == 0)
             {
-                Text2.text = double.Parse(Text2.text).ToString("0");
+                Text2.text = float.Parse(Text2.text.ToString()).ToString("0");
             }
             if (TransactionResult > 100)
             {
@@ -155,50 +155,50 @@ public class Questions : MonoBehaviour
     //Cevaplarýn kontrolünü saðladýðýmýz fonksiyonlar
     //burada doðru olaný bularak arabayý hýzlandýrma ve doðru yanlýþ sayýlarýný saydýrma iþlemlerini yaptýrýyoruz
 
-    public void AnswerCheck(UnityEngine.UI.Button btn)
-    {
+    //public void AnswerCheck(UnityEngine.UI.Button btn)
+    //{
 
-        if (Math.Round(double.Parse(btn.GetComponentInChildren<Text>().text), 2) == Math.Round(TransactionResult, 2))
-        {
-            Conclusion.text = "Doðru";
-            btn.GetComponent<Image>().color = Color.green;
-            moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-            moveSpeed += 5f;
-            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            Dogru = Dogru + 1;
-            PlayerPrefs.SetInt("Dogru", Dogru);
-            Confetti.SetActive(true);
-            Correct.SetActive(true);
-            Timer.finnished = true;
-            Btn1.interactable = false;
-            Btn2.interactable = false;
-            Invoke("GoBack", 3f);
-            float geriSayimSure = Timer.geriSayimSure;
-            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
-            if (Timer.geriSayimSure <= 2)
-            {
-                Timer.Finnish();
-            }
-        }
-        else
-        {
-            Conclusion.text = "Yanlýþ";
-            btn.GetComponent<Image>().color = Color.red;
-            Yanlis = Yanlis + 1;
-            PlayerPrefs.SetInt("Yanlis", Yanlis);
-            False.SetActive(true);
-            Timer.finnished = true;
-            Btn1.interactable = false;
-            Btn2.interactable = false;
-            Invoke("GoBack", 3f);
-            float geriSayimSure = Timer.geriSayimSure;
-            PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
-            if (Timer.geriSayimSure <= 2)
-            {
-                Timer.Finnish();
-            }
-        }
-    }
+    //    if (Math.Round(double.Parse(btn.GetComponentInChildren<Text>().text), 2) == Math.Round(TransactionResult, 2))
+    //    {
+    //        Conclusion.text = "Doðru";
+    //        btn.GetComponent<Image>().color = Color.green;
+    //        moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+    //        moveSpeed += 5f;
+    //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+    //        Dogru = Dogru + 1;
+    //        PlayerPrefs.SetInt("Dogru", Dogru);
+    //        Confetti.SetActive(true);
+    //        Correct.SetActive(true);
+    //        Timer.finnished = true;
+    //        Btn1.interactable = false;
+    //        Btn2.interactable = false;
+    //        Invoke("GoBack", 3f);
+    //        float geriSayimSure = Timer.geriSayimSure;
+    //        PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+    //        if (Timer.geriSayimSure <= 2)
+    //        {
+    //            Timer.Finnish();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Conclusion.text = "Yanlýþ";
+    //        btn.GetComponent<Image>().color = Color.red;
+    //        Yanlis = Yanlis + 1;
+    //        PlayerPrefs.SetInt("Yanlis", Yanlis);
+    //        False.SetActive(true);
+    //        Timer.finnished = true;
+    //        Btn1.interactable = false;
+    //        Btn2.interactable = false;
+    //        Invoke("GoBack", 3f);
+    //        float geriSayimSure = Timer.geriSayimSure;
+    //        PlayerPrefs.SetFloat("geriSayimSure", geriSayimSure);
+    //        if (Timer.geriSayimSure <= 2)
+    //        {
+    //            Timer.Finnish();
+    //        }
+    //    }
+    //}
 
     //Random sayý ve random operator oluþturarak her seferinde farklý sorular oluþturuyoruz
     public void Question()
@@ -215,20 +215,24 @@ public class Questions : MonoBehaviour
                 case 1:
                     Operator.text = "+";
                     TransactionResult = N1 + N2;
+                    PlayerPrefs.SetFloat("TransactionResult", TransactionResult);
                     break;
                 case 2:
                     Operator.text = "-";
                     TransactionResult = N1 - N2;
+                    PlayerPrefs.SetFloat("TransactionResult", TransactionResult);
                     break;
                 case 3:
                     Operator.text = "*";
                     TransactionResult = N1 * N2;
+                    PlayerPrefs.SetFloat("TransactionResult", TransactionResult);
                     break;
                 case 4:
                     Operator.text = "/";
                     TransactionResult = N1 / N2;
                     TransactionResult.ToString("0.00");
-                    double.Parse(TransactionResult.ToString("0.00"));
+                    float.Parse(TransactionResult.ToString("0.00"));
+                    PlayerPrefs.SetFloat("TransactionResult", TransactionResult);
                     break;
             }
             FirstNumber.text = N1 + "";
@@ -258,22 +262,18 @@ public class Questions : MonoBehaviour
                     Operator.text = "/";
                     TransactionResult = N1 / N2;
                     TransactionResult.ToString("0.00");
-                    double.Parse(TransactionResult.ToString("0.00"));
+                    float.Parse(TransactionResult.ToString("0.00"));
                     break;
             }
             FirstNumber.text = N1.ToString();
             SecondNumber.text = N2.ToString();
         }
-
     }
     //Çýkýþ yaptýðýmýzda hýzý 10f e sabitliyoruz.
     void OnApplicationQuit()
     {
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-
-        car.PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
-        PlayerPrefs.SetFloat("KüpZPosition", car.PuzzlePosition.z);
     }
     //Doðru yanlýþ sayýlarýný tutup yazdýrdýðýmýz fonksiyon
     public void DogruYanlis()
@@ -285,4 +285,5 @@ public class Questions : MonoBehaviour
         YanlisSayisi.text = Yanlis.ToString();
         BosSayisi.text = Bos.ToString();
     }
+
 }

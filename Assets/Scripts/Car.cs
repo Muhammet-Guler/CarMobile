@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-using TMPro;
 
 
 public class Car : MonoBehaviour
@@ -20,7 +19,7 @@ public class Car : MonoBehaviour
     public Questions Questions;
     public GameObject PausePanel;
     public int sayac = 0;
-    AudioSource SesKaynak;
+    public AudioSource SesKaynak;
     public int deger;
     public GameObject Road;
     public GameObject Road2;
@@ -30,29 +29,17 @@ public class Car : MonoBehaviour
     int ses;
     public Vector3 PuzzlePosition;
     public GameObject CubesAnswers;
-    public TMP_Text Cevap1, Cevap2;
     void Start()
     {
         Time.timeScale = 1f;
         LoadCarPosition();
         sayac = 0;
-        float savedZPosition = PlayerPrefs.GetFloat("KüpZPosition", PuzzlePosition.z);
-        Vector3 newPosition = PuzzlePosition;
-        newPosition.z = savedZPosition;
-        PuzzlePosition = newPosition;
-        carRb =GetComponent<Rigidbody>();
-        carRb.centerOfMass = _centerOfMass;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
     void Update()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        ManagerGame = GameObject.FindObjectOfType<GameManager>();
-        if (ManagerGame.isFinished == false)
-        {
-            if (scene.buildIndex == 1)
-            {
+            
                 moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
                 transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
                 if (moveSpeed > 360)
@@ -60,15 +47,16 @@ public class Car : MonoBehaviour
                     moveSpeed = 360;
                 }
                 carPosition = transform.position;
-            }
-        }
+
         AnimateWheels();
+        
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
     //rekor güncelleniyor
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.tag == "finish")
         {
             RestartAndQuit.SetActive(true);
@@ -82,8 +70,6 @@ public class Car : MonoBehaviour
             }
 
             ManagerGame.isFinished = true;
-
-            CancelInvoke("QuestionsScene");
             timer.CheckHighScore();
             SesDurdur();
         }
@@ -92,74 +78,107 @@ public class Car : MonoBehaviour
             Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + (float)92.5f);
             Array.Reverse(Roads);
         }
-        if (other.tag=="prefabs2")
-        {
-
-            //Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + 40f);
-            //Array.Reverse(Roads);
-        }
-        if (other.tag == "puzzle")
-        {
-
-            float geriSayimSure = PlayerPrefs.GetFloat("geriSayimSure");
-
-            Vector3 newPosition = PuzzlePosition;
-            newPosition.z += moveSpeed * (5 - (geriSayimSure - 1));
-            PuzzlePosition = newPosition;
-
-            PlayerPrefs.SetFloat("KüpZPosition", newPosition.z);
-            SceneManager.LoadScene(2); 
-        }
         if (other.tag=="engel")
         {
             CubesAnswers.transform.position += new Vector3(0, 0, 50f);
             Questions.Start();
+            Questions.Bos = Questions.Bos + 1;
+            PlayerPrefs.SetInt("Bos", Questions.Bos);
+
         }
-        if (other.tag=="cevap1")
+        if (other.tag == "cevapbir")
         {
-            if (Math.Round(double.Parse(Cevap1.text), 2) == Math.Round(Questions.TransactionResult, 2))
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()),2) == Math.Round(Questions.TransactionResult,2))
             {
-                moveSpeed = moveSpeed + (int)Questions.TransactionResult;
+                Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                moveSpeed =moveSpeed+ float.Parse(Questions.Text1.text);
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                Questions.Start();
+                Questions.Dogru = Questions.Dogru + 1;
+                PlayerPrefs.SetInt("Dogru", Questions.Dogru);
             }
-            if (Questions.TransactionResult < 0)
+            else
             {
-                moveSpeed = moveSpeed + (int)Questions.TransactionResult;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                if (Questions.TransactionResult < 0)
+                {
+                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                    moveSpeed = moveSpeed + float.Parse(Questions.Text1.text);
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+                if (Questions.TransactionResult > 0)
+                {
+                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                    moveSpeed = moveSpeed - float.Parse(Questions.Text1.text);
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+                Questions.Yanlis = Questions.Yanlis + 1;
+                PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                Questions.Start();
             }
-            else if (Questions.TransactionResult > 0)
+            if (moveSpeed <= 0)
             {
-                moveSpeed = moveSpeed - (int)Questions.TransactionResult;
+                moveSpeed = 0f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                RestartAndQuit.SetActive(true);
+                Questions.DogruYanlis();
+                Time.timeScale = 0f;
+                ManagerGame.isFinished = true;
+                SesDurdur();
             }
-            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-            Questions.Start();
         }
-        if (other.tag == "cevap2")
+        if (other.tag == "cevapiki")
         {
-            if (Math.Round(double.Parse(Cevap2.text),2) == Math.Round(Questions.TransactionResult, 2))
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) == Math.Round(Questions.TransactionResult, 2))
             {
-                moveSpeed =moveSpeed+(int)Questions.TransactionResult;
+                Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                moveSpeed = moveSpeed + float.Parse(Questions.Text2.text);
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                Questions.Start();
+                Questions.Dogru = Questions.Dogru + 1;
+                PlayerPrefs.SetInt("Dogru", Questions.Dogru);
+
             }
             else
             {
                 if (Questions.TransactionResult<0)
                 {
-                    moveSpeed = moveSpeed + (int)Questions.TransactionResult;
+                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                    moveSpeed = moveSpeed + float.Parse(Questions.Text2.text);
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
-                else if (Questions.TransactionResult>0)
+                if (Questions.TransactionResult>0) 
                 {
-                    moveSpeed = moveSpeed - (int)Questions.TransactionResult;
+                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
+                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                    moveSpeed = moveSpeed - float.Parse(Questions.Text2.text);
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
-                
+                Questions.Yanlis = Questions.Yanlis + 1;
+                PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                Questions.Start();
             }
-            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-            Questions.Start();
+        }
+        if (moveSpeed <= 0f)
+        {
+            moveSpeed = 0f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            RestartAndQuit.SetActive(true);
+            Questions.DogruYanlis();
+            Time.timeScale = 0f;
+            ManagerGame.isFinished = true;
+            SesDurdur();
         }
     }
+
     public void SesOynat()
     {
         SesKaynak.Play();
@@ -203,8 +222,6 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
         Questions.Bos = 0;
         PlayerPrefs.SetInt("Bos", Questions.Bos);
-        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
-        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -219,8 +236,6 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Bos", Questions.Bos);
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
-        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         sayac = 1;
@@ -251,8 +266,6 @@ public class Car : MonoBehaviour
         sayac = 1;
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        PuzzlePosition = new Vector3((float)-66.985, (float)1.507, (float)-268.3);
-        PlayerPrefs.SetFloat("KüpZPosition", PuzzlePosition.z);
         moveSpeed = 10f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
@@ -333,5 +346,41 @@ public class Car : MonoBehaviour
             wheel.whellModel.transform.position = pos;
             wheel.whellModel.transform.rotation = rot;
         }
+    }
+    void cevapbir()
+    {
+        moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+        if (Math.Round(double.Parse(Questions.Text1.text.ToString()), 2) == Math.Round(Questions.TransactionResult, 2))
+        {
+            moveSpeed += 5f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+        }
+        else
+        {
+            moveSpeed = moveSpeed - 5f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+
+        }
+        CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+        Questions.Start();
+    }
+    void cevapiki()
+    {
+        moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+        if (Math.Round(double.Parse(Questions.Text2.text.ToString()), 2) == Math.Round(Questions.TransactionResult, 2))
+        {
+            moveSpeed += 5f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+        }
+        else
+        {
+            moveSpeed = moveSpeed - 5f;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+
+        }
+        CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+        Questions.Start();
     }
 }
