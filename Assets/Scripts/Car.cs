@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-
+using System.Transactions;
 
 public class Car : MonoBehaviour
 {
@@ -57,22 +57,22 @@ public class Car : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.tag == "finish")
-        {
-            RestartAndQuit.SetActive(true);
-            Questions.DogruYanlis();
-            Time.timeScale = 0f;
-            moveSpeed = 0f;
-            //timer.StopTimer();
-            if (moveSpeed > 60f)
-            {
-                moveSpeed = 0f;
-            }
+        //if (other.tag == "finish")
+        //{
+        //    RestartAndQuit.SetActive(true);
+        //    Questions.DogruYanlis();
+        //    Time.timeScale = 0f;
+        //    moveSpeed = 0f;
+        //    //timer.StopTimer();
+        //    if (moveSpeed > 60f)
+        //    {
+        //        moveSpeed = 0f;
+        //    }
 
-            ManagerGame.isFinished = true;
-            timer.CheckHighScore();
-            SesDurdur();
-        }
+        //    ManagerGame.isFinished = true;
+        //    timer.CheckHighScore();
+        //    SesDurdur();
+        //}
         if (other.tag == "prefabs")
         {
             Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + (float)92.5f);
@@ -80,102 +80,84 @@ public class Car : MonoBehaviour
         }
         if (other.tag=="engel")
         {
-            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-            Questions.Start();
+            //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+            //Questions.Start();
             Questions.Bos = Questions.Bos + 1;
             PlayerPrefs.SetInt("Bos", Questions.Bos);
-
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         }
         if (other.tag == "cevapbir")
         {
-            if (Math.Round(float.Parse(Questions.Text1.text.ToString()),2) == Math.Round(Questions.TransactionResult,2))
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()),2) == Math.Round((float)Questions.TransactionResult,2))
             {
-                Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                moveSpeed =moveSpeed+ float.Parse(Questions.Text1.text);
+                moveSpeed = moveSpeed + (float)Questions.TransactionResult/2;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                Questions.Start();
+                //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                //Questions.Start();
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
+                if (Questions.TransactionResult<0)
+                {
+                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
             }
-            else
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
             {
                 if (Questions.TransactionResult < 0)
                 {
-                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                    moveSpeed = moveSpeed + float.Parse(Questions.Text1.text);
+                    moveSpeed = moveSpeed + (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
                 }
                 if (Questions.TransactionResult > 0)
                 {
-                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                    moveSpeed = moveSpeed - float.Parse(Questions.Text1.text);
+                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
+
                 Questions.Yanlis = Questions.Yanlis + 1;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                Questions.Start();
-            }
-            if (moveSpeed <= 0)
-            {
-                moveSpeed = 0f;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                RestartAndQuit.SetActive(true);
-                Questions.DogruYanlis();
-                Time.timeScale = 0f;
-                ManagerGame.isFinished = true;
-                SesDurdur();
             }
         }
         if (other.tag == "cevapiki")
         {
-            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) == Math.Round(Questions.TransactionResult, 2))
+            if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) == Math.Round((float)Questions.TransactionResult, 2))
             {
-                Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                moveSpeed = moveSpeed + float.Parse(Questions.Text2.text);
+                moveSpeed = moveSpeed + (float)Questions.TransactionResult/2;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                Questions.Start();
+                //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+                //Questions.Start();
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
-
+                if (Questions.TransactionResult < 0)
+                {
+                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
             }
-            else
+            if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
             {
                 if (Questions.TransactionResult<0)
                 {
-                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                    moveSpeed = moveSpeed + float.Parse(Questions.Text2.text);
+                    moveSpeed = moveSpeed + (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
                 }
-                if (Questions.TransactionResult>0) 
+                if (Questions.TransactionResult > 0)
                 {
-                    Questions.TransactionResult = PlayerPrefs.GetFloat("TransactionResult");
-                    moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                    moveSpeed = moveSpeed - float.Parse(Questions.Text2.text);
+                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
+
                 Questions.Yanlis = Questions.Yanlis + 1;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
-                CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                Questions.Start();
             }
         }
-        if (moveSpeed <= 0f)
+        if(other.tag == "soru")
         {
-            moveSpeed = 0f;
-            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-            RestartAndQuit.SetActive(true);
-            Questions.DogruYanlis();
-            Time.timeScale = 0f;
-            ManagerGame.isFinished = true;
-            SesDurdur();
+            Questions.Start();
+            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
         }
     }
 

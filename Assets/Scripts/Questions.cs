@@ -41,6 +41,10 @@ public class Questions : MonoBehaviour
         Bos = PlayerPrefs.GetInt("Bos");
 
         Question();
+        if (TransactionResult > 50)
+        {
+            Start();
+        }
         //zorluk seviyesi için degeri çekiyoruz
         deger = PlayerPrefs.GetInt("deger");
 
@@ -98,42 +102,42 @@ public class Questions : MonoBehaviour
 
         if (deger == 1)
         {
-            Btn1.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
-            double.Parse(Btn1.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) > 25)
+            Text1.text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
+            float.Parse(Text1.text);
+            if (float.Parse(Text1.text) > 25)
             {
-                Btn1.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
-                double.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Text1.text = TransactionResult.ToString("0.00");
+                float.Parse(Text1.text);
             }
             else
             {
-                Btn1.GetComponentInChildren<Text>().text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn1.GetComponentInChildren<Text>().text);
+                Text1.text = (TransactionResult - UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                float.Parse(Text1.text);
             }
-            Btn2.GetComponentInChildren<Text>().text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
-            double.Parse(Btn2.GetComponentInChildren<Text>().text);
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) != TransactionResult)
+            Text2.text = UnityEngine.Random.Range(ZorMinValue, ZorMaxValue).ToString("0.00");
+            float.Parse(Text2.text);
+            if (float.Parse(Text1.text) != TransactionResult)
             {
-                Btn2.GetComponentInChildren<Text>().text = TransactionResult.ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = TransactionResult.ToString("0.00");
+                float.Parse(Text2.text);
             }
             else
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                float.Parse(Text2.text);
             }
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) == double.Parse(Btn2.GetComponentInChildren<Text>().text))
+            if (float.Parse(Text1.text) == float.Parse(Text2.text))
             {
-                Btn2.GetComponentInChildren<Text>().text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
-                double.Parse(Btn2.GetComponentInChildren<Text>().text);
+                Text2.text = (TransactionResult + UnityEngine.Random.Range(1, 3)).ToString("0.00");
+                float.Parse(Text2.text);
             }
-            if (double.Parse(Btn1.GetComponentInChildren<Text>().text) % 1 == 0)
+            if (float.Parse(Text1.text) % 1 == 0)
             {
-                Btn1.GetComponentInChildren<Text>().text = double.Parse(Btn1.GetComponentInChildren<Text>().text).ToString("0");
+                Text1.text = float.Parse(Text1.text).ToString("0");
             }
-            if (double.Parse(Btn2.GetComponentInChildren<Text>().text) % 1 == 0)
+            if (float.Parse(Text2.text) % 1 == 0)
             {
-                Btn2.GetComponentInChildren<Text>().text = double.Parse(Btn2.GetComponentInChildren<Text>().text).ToString("0");
+                Text2.text = float.Parse(Text2.text).ToString("0");
             }
             if (TransactionResult > 500)
             {
