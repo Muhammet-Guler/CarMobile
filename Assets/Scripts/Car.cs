@@ -29,6 +29,10 @@ public class Car : MonoBehaviour
     int ses;
     public Vector3 PuzzlePosition;
     public GameObject CubesAnswers;
+    public bool DogruMu;
+    public int geriSayimSure = 5;
+    public float uzaklastir=0;
+    public float yakinlastir = 0;
     void Start()
     {
         Time.timeScale = 1f;
@@ -49,7 +53,22 @@ public class Car : MonoBehaviour
                 carPosition = transform.position;
 
         AnimateWheels();
-        
+        if (moveSpeed<=0f)
+        {
+            RestartAndQuit.SetActive(true);
+            Questions.DogruYanlis();
+            Time.timeScale = 0f;
+            moveSpeed = 0f;
+            //timer.StopTimer();
+            if (moveSpeed > 60f)
+            {
+                moveSpeed = 0f;
+            }
+
+            ManagerGame.isFinished = true;
+            timer.CheckHighScore();
+            SesDurdur();
+        }
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
@@ -90,77 +109,112 @@ public class Car : MonoBehaviour
         {
             if (Math.Round(float.Parse(Questions.Text1.text.ToString()),2) == Math.Round((float)Questions.TransactionResult,2))
             {
-                moveSpeed = moveSpeed + (float)Questions.TransactionResult/2;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                //Questions.Start();
+                DogruMu = true;
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
-                if (Questions.TransactionResult<0)
-                {
-                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
-                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                }
-            }
-            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
-            {
-                if (Questions.TransactionResult < 0)
+                if (Questions.TransactionResult > 0)
                 {
                     moveSpeed = moveSpeed + (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
 
                 }
-                if (Questions.TransactionResult > 0)
+                if (Questions.TransactionResult < 0)
                 {
                     moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
 
+            }
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
+            {
                 Questions.Yanlis = Questions.Yanlis + 1;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+                if (Questions.TransactionResult < 0)
+                {
+                    moveSpeed = moveSpeed + float.Parse(Questions.Text1.text) / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+                }
+                if (Questions.TransactionResult > 0)
+                {
+                    moveSpeed = moveSpeed - float.Parse(Questions.Text1.text) / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+
             }
         }
         if (other.tag == "cevapiki")
         {
             if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) == Math.Round((float)Questions.TransactionResult, 2))
             {
-                moveSpeed = moveSpeed + (float)Questions.TransactionResult/2;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
-                //Questions.Start();
+                DogruMu = true;
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
-                if (Questions.TransactionResult < 0)
-                {
-                    moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
-                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                }
-            }
-            if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
-            {
-                if (Questions.TransactionResult<0)
+                if (Questions.TransactionResult>0)
                 {
                     moveSpeed = moveSpeed + (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
 
                 }
-                if (Questions.TransactionResult > 0)
+                if (Questions.TransactionResult < 0)
                 {
                     moveSpeed = moveSpeed - (float)Questions.TransactionResult / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 }
 
+            }
+            if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
+            {
                 Questions.Yanlis = Questions.Yanlis + 1;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
+                if (Questions.TransactionResult<0)
+                {
+                    moveSpeed = moveSpeed + float.Parse(Questions.Text1.text) / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+                }
+                if (Questions.TransactionResult > 0)
+                {
+                    moveSpeed = moveSpeed - float.Parse(Questions.Text1.text) / 2;
+                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                }
+
             }
         }
         if(other.tag == "soru")
         {
-            Questions.Start();
-            CubesAnswers.transform.position += new Vector3(0, 0, 50f);
+            if (DogruMu==true)
+            {
+                uzaklastir = uzaklastir + 10f;
+                geriSayimSure -= 1;
+                if (geriSayimSure<=1)
+                {
+                    geriSayimSure = 1;
+                }
+                StartCoroutine(GeriSayim());
+                CubesAnswers.transform.position += new Vector3(0, 0, uzaklastir+50f);
+
+            }
+            else
+            {
+                yakinlastir = yakinlastir + 10f;
+                geriSayimSure = 5;
+                StartCoroutine(GeriSayim());
+                CubesAnswers.transform.position += new Vector3(0, 0, 50f-yakinlastir);
+            }
         }
     }
+    public IEnumerator GeriSayim()
+    {
+        while (geriSayimSure > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            geriSayimSure--;
+            Questions.Start();
+            
+        }
 
+    }
     public void SesOynat()
     {
         SesKaynak.Play();
@@ -204,6 +258,8 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
         Questions.Bos = 0;
         PlayerPrefs.SetInt("Bos", Questions.Bos);
+        uzaklastir = 0;
+        yakinlastir = 0;
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()

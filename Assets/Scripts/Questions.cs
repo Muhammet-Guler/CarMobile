@@ -41,10 +41,7 @@ public class Questions : MonoBehaviour
         Bos = PlayerPrefs.GetInt("Bos");
 
         Question();
-        if (TransactionResult > 50)
-        {
-            Start();
-        }
+        
         //zorluk seviyesi için degeri çekiyoruz
         deger = PlayerPrefs.GetInt("deger");
 
@@ -150,6 +147,7 @@ public class Questions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
     }
     //Geri dönüþ fonksiyonu
     public void GoBack()
@@ -272,6 +270,14 @@ public class Questions : MonoBehaviour
             FirstNumber.text = N1.ToString();
             SecondNumber.text = N2.ToString();
         }
+        if (TransactionResult < 10)
+        {
+            Question();
+        }
+        if (TransactionResult > 50)
+        {
+            Question();
+        }
     }
     //Çýkýþ yaptýðýmýzda hýzý 10f e sabitliyoruz.
     void OnApplicationQuit()
@@ -283,8 +289,15 @@ public class Questions : MonoBehaviour
     public void DogruYanlis()
     {
         Dogru = PlayerPrefs.GetInt("Dogru");
+        Dogru = Dogru / 2;
         Yanlis = PlayerPrefs.GetInt("Yanlis");
+        Yanlis = Yanlis / 2;
         Bos = PlayerPrefs.GetInt("Bos");
+        Bos=Bos / 2;
+        if (Yanlis==0)
+        {
+            Yanlis = 1;
+        }
         DogruSayisi.text = Dogru.ToString();
         YanlisSayisi.text = Yanlis.ToString();
         BosSayisi.text = Bos.ToString();
