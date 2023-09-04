@@ -294,10 +294,10 @@ public class Questions : MonoBehaviour
         Yanlis = Yanlis / 2;
         Bos = PlayerPrefs.GetInt("Bos");
         Bos=Bos / 2;
-        if (Yanlis==0)
-        {
-            Yanlis = 1;
-        }
+        //if (Yanlis==0)
+        //{
+        //    Yanlis = 1;
+        //}
         DogruSayisi.text = Dogru.ToString();
         YanlisSayisi.text = Yanlis.ToString();
         BosSayisi.text = Bos.ToString();

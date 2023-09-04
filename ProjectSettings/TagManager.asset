@@ -11,6 +11,8 @@ TagManager:
   - cevapiki
   - cevapbir
   - soru
+  - bariyer
+  - bariyer2
   layers:
   - Default
   - TransparentFX
