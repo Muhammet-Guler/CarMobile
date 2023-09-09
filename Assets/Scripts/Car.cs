@@ -121,8 +121,8 @@ public class Car : MonoBehaviour
         //}
         if (other.tag == "prefabs")
         {
-            Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + (float)92.5f);
-            Array.Reverse(Roads);
+            Roads[0].localPosition += new Vector3(0, 0, Roads[0].localScale.z + (float)225.5f);
+            //Array.Reverse(Roads);
         }
         if (other.tag=="engel")
         {
@@ -283,7 +283,7 @@ public class Car : MonoBehaviour
             //    StartCoroutine(GeriSayim());
             //    CubesAnswers.transform.position += new Vector3(0, 0, 50f-yakinlastir);
             //}
-            CubesAnswers.transform.position += new Vector3(0, 0, 100f);
+            CubesAnswers.transform.position += new Vector3(0, 0, 70f);
             Questions.Start();
         }
         if (other.tag=="bariyer")
