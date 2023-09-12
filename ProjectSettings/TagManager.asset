@@ -13,6 +13,10 @@ TagManager:
   - soru
   - bariyer
   - bariyer2
+  - prefabs3
+  - ilk
+  - ikinci
+  - ucuncu
   layers:
   - Default
   - TransparentFX
