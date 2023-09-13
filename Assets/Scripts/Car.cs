@@ -9,7 +9,7 @@ using System.Transactions;
 
 public class Car : MonoBehaviour
 {
-    public float moveSpeed = 10f; // Nesnenin hareket hýzý
+    public float moveSpeed = 15f; // Nesnenin hareket hýzý
     public bool stop = false;
     public SpeedIndicator speedIndicator;
     public Timer timer;
@@ -51,11 +51,14 @@ public class Car : MonoBehaviour
     {
             
                 moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+                moveSpeed = moveSpeed + (float)0.01;
+                PlayerPrefs.SetFloat("ArabaninHizi",moveSpeed);
                 transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-                if (moveSpeed > 360)
+                if (moveSpeed >= 100)
                 {
-                    moveSpeed = 360;
+                    moveSpeed = 100;
                 }
+                
                 carPosition = transform.position;
         //AnimateWheels();
         if (moveSpeed<=0f||index==0)
@@ -94,9 +97,9 @@ public class Car : MonoBehaviour
             index = 5;
             PlayerPrefs.SetFloat("index", index);
         }
-        if (moveSpeed<10)
+        if (moveSpeed<15)
         {
-            moveSpeed = 10;
+            moveSpeed = 15;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         }
         if (moveSpeed >= 100)
@@ -127,19 +130,14 @@ public class Car : MonoBehaviour
         //    timer.CheckHighScore();
         //    SesDurdur();
         //}
-        if (other.tag == "ilk")
-        {
-         Roads[1].transform.position = new Vector3(Roads[0].transform.position.x, Roads[0].transform.position.y, Roads[0].transform.position.z + (float)188f);
-             
-        }
         if (other.tag == "ikinci")
         {
-            Roads[2].transform.position = new Vector3(Roads[1].transform.position.x, Roads[1].transform.position.y, Roads[1].transform.position.z + (float)188f);
+            Roads[1].transform.position = new Vector3(Roads[0].transform.position.x, Roads[0].transform.position.y, Roads[0].transform.position.z + (float)188f);
 
         }
         if (other.tag == "ucuncu")
         {
-            Roads[0].transform.position = new Vector3(Roads[2].transform.position.x, Roads[2].transform.position.y, Roads[2].transform.position.z + (float)188f);
+            Roads[0].transform.position = new Vector3(Roads[1].transform.position.x, Roads[1].transform.position.y, Roads[1].transform.position.z + (float)188f);
 
         }
         if (other.tag=="engel")
@@ -183,9 +181,9 @@ public class Car : MonoBehaviour
                 {
                     moveSpeed = moveSpeed + (float)5 / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    if (moveSpeed >= 70)
+                    if (moveSpeed >= 100)
                     {
-                        moveSpeed = 70;
+                        moveSpeed = 100;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                     }
 
@@ -194,9 +192,9 @@ public class Car : MonoBehaviour
                 {
                     moveSpeed = moveSpeed - (float)5 / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    if (moveSpeed >= 70)
+                    if (moveSpeed >= 100)
                     {
-                        moveSpeed = 70;
+                        moveSpeed = 100;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                     }
                 }
@@ -228,7 +226,7 @@ public class Car : MonoBehaviour
 
                 if (Questions.TransactionResult < 0)
                 {
-                    if (moveSpeed >= 10)
+                    if (moveSpeed >= 15)
                     {
                         moveSpeed = moveSpeed + (float)5 / 2;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -236,7 +234,7 @@ public class Car : MonoBehaviour
                 }
                 if (Questions.TransactionResult > 0)
                 {
-                    if (moveSpeed>=10) {
+                    if (moveSpeed>=15) {
                         moveSpeed = moveSpeed - (float)5 / 2;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                     }
@@ -255,26 +253,26 @@ public class Car : MonoBehaviour
                 StartCoroutine(DogruCevapAnim());
                 if (Questions.TransactionResult>0)
                 {
-                    if (moveSpeed >= 10)
+                    if (moveSpeed >= 15)
                     {
                         moveSpeed = moveSpeed + (float)5 / 2;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        if (moveSpeed >= 70)
+                        if (moveSpeed >= 100)
                         {
-                            moveSpeed = 70;
+                            moveSpeed = 100;
                             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                         }
                     }
                 }
                 if (Questions.TransactionResult < 0)
                 {
-                    if (moveSpeed >= 10)
+                    if (moveSpeed >= 15)
                     {
                         moveSpeed = moveSpeed - (float)5 / 2;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        if (moveSpeed >= 70)
+                        if (moveSpeed >= 100)
                         {
-                            moveSpeed = 70;
+                            moveSpeed = 100;
                             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                         }
                     }
@@ -350,7 +348,7 @@ public class Car : MonoBehaviour
             Hearts[(int)index].gameObject.SetActive(false);
             index = index - (float)0.25;
             PlayerPrefs.SetFloat("index", index);
-            if (moveSpeed>10)
+            if (moveSpeed>15)
             {
                 moveSpeed -= (float)5 / 4f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -365,7 +363,7 @@ public class Car : MonoBehaviour
             Hearts[(int)index].gameObject.SetActive(false);
             index = index - (float)0.25;
             PlayerPrefs.SetFloat("index", index); 
-            if (moveSpeed > 10)
+            if (moveSpeed > 15)
             {
                 moveSpeed -= (float)5 / 4f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -418,7 +416,7 @@ public class Car : MonoBehaviour
     {
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        moveSpeed = 10f;
+        moveSpeed = 15f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         Questions.Dogru = 0;
         PlayerPrefs.SetInt("Dogru", Questions.Dogru);
@@ -444,7 +442,7 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetInt("Bos", Questions.Bos);
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        moveSpeed = 10f;
+        moveSpeed = 15f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         sayac = 1;
         ManagerGame.isFinished = false;
@@ -476,7 +474,7 @@ public class Car : MonoBehaviour
         sayac = 1;
         carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = carPosition;
-        moveSpeed = 10f;
+        moveSpeed = 15f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         SceneManager.LoadScene(0);
     }

@@ -23,7 +23,7 @@ public class SpeedIndicator : MonoBehaviour
     private void FixedUpdate()
     {
 
-        speed = car.moveSpeed;
+        speed = car.moveSpeed*2;
 
         if (speed > topSpeed) speed = topSpeed;
 
