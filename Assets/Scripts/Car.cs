@@ -51,7 +51,7 @@ public class Car : MonoBehaviour
     {
             
                 moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                moveSpeed = moveSpeed + (float)0.01;
+                moveSpeed = moveSpeed + (float)0.005;
                 PlayerPrefs.SetFloat("ArabaninHizi",moveSpeed);
                 transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
                 if (moveSpeed >= 100)
@@ -144,6 +144,7 @@ public class Car : MonoBehaviour
         {
             //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
             //Questions.Start();
+            CanHakký = 0;
             PlayerPrefs.GetFloat("index");
             Questions.Bos= PlayerPrefs.GetInt("Bos");
             Questions.Bos = Questions.Bos + 1;
@@ -177,27 +178,27 @@ public class Car : MonoBehaviour
                 //    }
                 //}
                 
-                if (Questions.TransactionResult > 0)
-                {
-                    moveSpeed = moveSpeed + (float)5 / 2;
-                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    if (moveSpeed >= 100)
-                    {
-                        moveSpeed = 100;
-                        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    }
+                //if (Questions.TransactionResult > 0)
+                //{
+                //    moveSpeed = moveSpeed + (float)5 / 2;
+                //    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //    if (moveSpeed >= 100)
+                //    {
+                //        moveSpeed = 100;
+                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //    }
 
-                }
-                if (Questions.TransactionResult < 0)
-                {
-                    moveSpeed = moveSpeed - (float)5 / 2;
-                    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    if (moveSpeed >= 100)
-                    {
-                        moveSpeed = 100;
-                        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                    }
-                }
+                //}
+                //if (Questions.TransactionResult < 0)
+                //{
+                //    moveSpeed = moveSpeed - (float)5 / 2;
+                //    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //    if (moveSpeed >= 100)
+                //    {
+                //        moveSpeed = 100;
+                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //    }
+                //}
                 if (CanHakký%3==0)
                 {
                     PlayerPrefs.GetFloat("index");
@@ -234,11 +235,12 @@ public class Car : MonoBehaviour
                 }
                 if (Questions.TransactionResult > 0)
                 {
-                    if (moveSpeed>=15) {
+                    if (moveSpeed >= 15)
+                    {
                         moveSpeed = moveSpeed - (float)5 / 2;
                         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                     }
-                    
+
                 }
 
             }
@@ -251,32 +253,32 @@ public class Car : MonoBehaviour
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
                 StartCoroutine(DogruCevapAnim());
-                if (Questions.TransactionResult>0)
-                {
-                    if (moveSpeed >= 15)
-                    {
-                        moveSpeed = moveSpeed + (float)5 / 2;
-                        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        if (moveSpeed >= 100)
-                        {
-                            moveSpeed = 100;
-                            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        }
-                    }
-                }
-                if (Questions.TransactionResult < 0)
-                {
-                    if (moveSpeed >= 15)
-                    {
-                        moveSpeed = moveSpeed - (float)5 / 2;
-                        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        if (moveSpeed >= 100)
-                        {
-                            moveSpeed = 100;
-                            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                        }
-                    }
-                }
+                //if (Questions.TransactionResult>0)
+                //{
+                //    if (moveSpeed >= 15)
+                //    {
+                //        moveSpeed = moveSpeed + (float)5 / 2;
+                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //        if (moveSpeed >= 100)
+                //        {
+                //            moveSpeed = 100;
+                //            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //        }
+                //    }
+                //}
+                //if (Questions.TransactionResult < 0)
+                //{
+                //    if (moveSpeed >= 15)
+                //    {
+                //        moveSpeed = moveSpeed - (float)5 / 2;
+                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //        if (moveSpeed >= 100)
+                //        {
+                //            moveSpeed = 100;
+                //            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+                //        }
+                //    }
+                //}
                 if (CanHakký % 3 == 0)
                 {
                     PlayerPrefs.GetFloat("index");
