@@ -36,6 +36,7 @@ public class Car : MonoBehaviour
     public UnityEngine.UI.Image[] Hearts=new Image[4];
     public float index = 5;
     public float CanHakký;
+    public bool OyunDurdurulduMu;
     void Start()
     {
         Time.timeScale = 1f;
@@ -49,11 +50,14 @@ public class Car : MonoBehaviour
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
     void Update()
     {
-            
+                if (OyunDurdurulduMu==false)
+                {
                 moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
                 moveSpeed = moveSpeed + (float)0.005;
-                PlayerPrefs.SetFloat("ArabaninHizi",moveSpeed);
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
                 transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+                }
+                
                 if (moveSpeed >= 100)
                 {
                     moveSpeed = 100;
@@ -163,42 +167,6 @@ public class Car : MonoBehaviour
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
                 StartCoroutine(DogruCevapAnim());
-                //if (Bariyerler != null && Bariyerler.Length > 0)
-                //{
-                //    foreach (GameObject hedefGameObject in Bariyerler)
-                //    {
-                //        // Her bir GameObject üzerindeki Renderer bileþenini alýn.
-                //        Renderer rend = hedefGameObject.GetComponent<Renderer>();
-
-                //        // Renderer bulundu ve yeni renk ayarlandýysa, renkleri güncelleyin.
-                //        if (rend != null)
-                //        {
-                //            rend.material.color = Color.green;
-                //        }
-                //    }
-                //}
-                
-                //if (Questions.TransactionResult > 0)
-                //{
-                //    moveSpeed = moveSpeed + (float)5 / 2;
-                //    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //    if (moveSpeed >= 100)
-                //    {
-                //        moveSpeed = 100;
-                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //    }
-
-                //}
-                //if (Questions.TransactionResult < 0)
-                //{
-                //    moveSpeed = moveSpeed - (float)5 / 2;
-                //    PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //    if (moveSpeed >= 100)
-                //    {
-                //        moveSpeed = 100;
-                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //    }
-                //}
                 if (CanHakký%3==0)
                 {
                     PlayerPrefs.GetFloat("index");
@@ -253,32 +221,6 @@ public class Car : MonoBehaviour
                 Questions.Dogru = Questions.Dogru + 1;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
                 StartCoroutine(DogruCevapAnim());
-                //if (Questions.TransactionResult>0)
-                //{
-                //    if (moveSpeed >= 15)
-                //    {
-                //        moveSpeed = moveSpeed + (float)5 / 2;
-                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //        if (moveSpeed >= 100)
-                //        {
-                //            moveSpeed = 100;
-                //            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //        }
-                //    }
-                //}
-                //if (Questions.TransactionResult < 0)
-                //{
-                //    if (moveSpeed >= 15)
-                //    {
-                //        moveSpeed = moveSpeed - (float)5 / 2;
-                //        PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //        if (moveSpeed >= 100)
-                //        {
-                //            moveSpeed = 100;
-                //            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                //        }
-                //    }
-                //}
                 if (CanHakký % 3 == 0)
                 {
                     PlayerPrefs.GetFloat("index");
@@ -320,25 +262,6 @@ public class Car : MonoBehaviour
         }
         if(other.tag == "soru")
         {
-            //if (DogruMu==true)
-            //{
-            //    uzaklastir = uzaklastir + 10f;
-            //    geriSayimSure -= 1;
-            //    if (geriSayimSure<=1)
-            //    {
-            //        geriSayimSure = 1;
-            //    }
-            //    StartCoroutine(GeriSayim());
-            //    CubesAnswers.transform.position += new Vector3(0, 0, uzaklastir+50f);
-
-            //}
-            //else
-            //{
-            //    yakinlastir = yakinlastir + 10f;
-            //    geriSayimSure = 5;
-            //    StartCoroutine(GeriSayim());
-            //    CubesAnswers.transform.position += new Vector3(0, 0, 50f-yakinlastir);
-            //}
             CubesAnswers.transform.position += new Vector3(0, 0, 70f);
             Questions.Start();
         }
@@ -383,6 +306,7 @@ public class Car : MonoBehaviour
         }
 
     }
+   
     public void SesOynat()
     {
         sound.PlaySound();
@@ -462,6 +386,7 @@ public class Car : MonoBehaviour
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
         AudioListener.volume = 0f;
+        OyunDurdurulduMu = true;
     }
     //panel kapanýp devam ediliyor
     public void Continue()
@@ -469,6 +394,7 @@ public class Car : MonoBehaviour
         Time.timeScale = 1f;
         PausePanel.SetActive(false);
         AudioListener.volume = 1f;
+        OyunDurdurulduMu = false;
     }
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()

@@ -26,7 +26,6 @@ public class Questions : MonoBehaviour
     public GameObject Confetti;
     public GameObject Correct;
     public GameObject False;
-    public Timer2 Timer;
 
     public const int KolayMinValue = 1;
     public const int KolayMaxValue = 10;
