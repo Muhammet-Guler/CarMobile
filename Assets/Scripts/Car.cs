@@ -31,14 +31,15 @@ public class Car : MonoBehaviour
     public GameObject engel;
     public bool DogruMu;
     public int geriSayimSure = 10;
-    public float uzaklastir=0;
+    public float uzaklastir = 0;
     public float yakinlastir = 0;
     public Material hedefMalzeme;
-    public UnityEngine.UI.Image[] Hearts=new Image[4];
+    public UnityEngine.UI.Image[] Hearts = new Image[4];
     public float index = 4;
     public float CanHakký;
     public bool OyunDurdurulduMu;
     public UnityEngine.UI.Text SlowMotion;
+    public UnityEngine.UI.Button SlowMotionButton;
     void Start()
     {
         Time.timeScale = 1f;
@@ -47,27 +48,28 @@ public class Car : MonoBehaviour
         Color bejRenk = new Color(200f / 255f, 191f / 255f, 149f / 255f);
         hedefMalzeme.color = bejRenk;
         GetComponent<Renderer>().material = hedefMalzeme;
+        SlowMotionButton.interactable = false;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
     void Update()
     {
-                if (OyunDurdurulduMu==false)
-                {
-                moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
-                moveSpeed = moveSpeed + (float)0.005;
-                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
-                transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-                }
-                
-                if (moveSpeed >= 100)
-                {
-                    moveSpeed = 100;
-                }
-                
-                carPosition = transform.position;
+        if (OyunDurdurulduMu == false)
+        {
+            moveSpeed = PlayerPrefs.GetFloat("ArabaninHizi");
+            moveSpeed = moveSpeed + (float)0.005;
+            PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        }
+
+        if (moveSpeed >= 100)
+        {
+            moveSpeed = 100;
+        }
+
+        carPosition = transform.position;
         //AnimateWheels();
-        if (moveSpeed<=0f||index==0)
+        if (moveSpeed <= 0f || index == -1)
         {
             SesDurdur();
             RestartAndQuit.SetActive(true);
@@ -103,7 +105,7 @@ public class Car : MonoBehaviour
             index = 4;
             PlayerPrefs.SetFloat("index", index);
         }
-        if (moveSpeed<15)
+        if (moveSpeed < 15)
         {
             moveSpeed = 15;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -113,6 +115,7 @@ public class Car : MonoBehaviour
             moveSpeed = 100;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         }
+
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
@@ -146,42 +149,50 @@ public class Car : MonoBehaviour
             Roads[0].transform.position = new Vector3(Roads[1].transform.position.x, Roads[1].transform.position.y, Roads[1].transform.position.z + (float)188f);
 
         }
-        if (other.tag=="engel")
+        if (other.tag == "engel")
         {
             //CubesAnswers.transform.position += new Vector3(0, 0, 50f);
             //Questions.Start();
             CubesAnswers.SetActive(false);
             SlowMotion.text = "";
             Time.timeScale = 1f;
+            SlowMotionButton.interactable = false;
+            SlowMotionButton.GetComponentInChildren<Text>().color = Color.black;
             CanHakký = 0;
             PlayerPrefs.GetFloat("index");
-            Questions.Bos= PlayerPrefs.GetInt("Bos");
-            Questions.Bos = Questions.Bos + 1;
+            Questions.Bos = PlayerPrefs.GetInt("Bos");
+            Questions.Bos = Questions.Bos + 2;
             PlayerPrefs.SetInt("Bos", Questions.Bos);
-            Hearts[(int)index].gameObject.SetActive(false);
-            index = index - 1;
-            PlayerPrefs.SetFloat("index", index);
+            if (Questions.Bos%6==0)
+            {
+                Hearts[(int)index].gameObject.SetActive(false);
+                index = index - 1;
+                PlayerPrefs.SetFloat("index", index);
+            }
+
             StartCoroutine(BosAnim());
-            
+
         }
         if (other.tag == "cevapbir")
         {
             CubesAnswers.SetActive(false);
             SlowMotion.text = "";
             Time.timeScale = 1f;
-            if (Math.Round(float.Parse(Questions.Text1.text.ToString()),2) == Math.Round((float)Questions.TransactionResult,2))
+            SlowMotionButton.interactable = false;
+            SlowMotionButton.GetComponentInChildren<Text>().color = Color.black;
+            if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) == Math.Round((float)Questions.TransactionResult, 2))
             {
                 CanHakký += 1;
-                Questions.Dogru = Questions.Dogru + 1;
+                Questions.Dogru = Questions.Dogru + 2;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
                 StartCoroutine(DogruCevapAnim());
-                if (CanHakký%3==0)
+                if (CanHakký % 3 == 0)
                 {
-                    index=PlayerPrefs.GetFloat("index");
+                    index = PlayerPrefs.GetFloat("index");
                     index = index + 1;
                     Hearts[(int)index].gameObject.SetActive(true);
-                    PlayerPrefs.SetFloat("index", index); 
-                    
+                    PlayerPrefs.SetFloat("index", index);
+
                 }
                 if (index >= 4)
                 {
@@ -192,9 +203,9 @@ public class Car : MonoBehaviour
             }
             if (Math.Round(float.Parse(Questions.Text1.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
             {
-                CanHakký = 0; 
-                index=PlayerPrefs.GetFloat("index");
-                Questions.Yanlis = Questions.Yanlis + 1;
+                CanHakký = 0;
+                index = PlayerPrefs.GetFloat("index");
+                Questions.Yanlis = Questions.Yanlis + 2;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
                 StartCoroutine(YanlisCevapAnim());
                 Hearts[(int)index].gameObject.SetActive(false);
@@ -226,10 +237,12 @@ public class Car : MonoBehaviour
             CubesAnswers.SetActive(false);
             SlowMotion.text = "";
             Time.timeScale = 1f;
+            SlowMotionButton.interactable = false;
+            SlowMotionButton.GetComponentInChildren<Text>().color = Color.black;
             if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) == Math.Round((float)Questions.TransactionResult, 2))
             {
                 CanHakký += 1;
-                Questions.Dogru = Questions.Dogru + 1;
+                Questions.Dogru = Questions.Dogru + 2;
                 PlayerPrefs.SetInt("Dogru", Questions.Dogru);
                 StartCoroutine(DogruCevapAnim());
                 if (CanHakký % 3 == 0)
@@ -238,7 +251,7 @@ public class Car : MonoBehaviour
                     index = index + 1;
                     Hearts[(int)index].gameObject.SetActive(true);
                     PlayerPrefs.SetFloat("index", index);
-                    
+
                 }
                 if (index >= 4)
                 {
@@ -250,14 +263,14 @@ public class Car : MonoBehaviour
             if (Math.Round(float.Parse(Questions.Text2.text.ToString()), 2) != Math.Round((float)Questions.TransactionResult, 2))
             {
                 CanHakký = 0;
-                index=PlayerPrefs.GetFloat("index");
-                Questions.Yanlis = Questions.Yanlis + 1;
+                index = PlayerPrefs.GetFloat("index");
+                Questions.Yanlis = Questions.Yanlis + 2;
                 PlayerPrefs.SetInt("Yanlis", Questions.Yanlis);
                 StartCoroutine(YanlisCevapAnim());
                 Hearts[(int)index].gameObject.SetActive(false);
                 index = index - 1;
                 PlayerPrefs.SetFloat("index", index);
-                if (Questions.TransactionResult<0)
+                if (Questions.TransactionResult < 0)
                 {
                     moveSpeed = moveSpeed + (float)5 / 2;
                     PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
@@ -271,58 +284,60 @@ public class Car : MonoBehaviour
 
             }
         }
-        if(other.tag == "soru")
+        if (other.tag == "soru")
         {
             CubesAnswers.SetActive(true);
-            if (moveSpeed<60)
-            {
-                CubesAnswers.transform.position += new Vector3(0, 0, 100f);
-                engel.transform.position += new Vector3(0, 0, 100f);
-                Questions.Start();
-            }
-            if (moveSpeed>60)
+            if (moveSpeed < 60)
             {
                 CubesAnswers.transform.position += new Vector3(0, 0, 150f);
                 engel.transform.position += new Vector3(0, 0, 150f);
                 Questions.Start();
             }
-        }
-        if (other.tag=="bariyer")
-        {
-            CanHakký = 0;
-            transform.position = new Vector3(carPosition.x+4f, 0, carPosition.z);
-            index = PlayerPrefs.GetFloat("index");
-            Hearts[(int)index].gameObject.SetActive(false);
-            index = index - (float)0.25;
-            PlayerPrefs.SetFloat("index", index);
-            if (moveSpeed>15)
+            if (moveSpeed > 60)
             {
-                moveSpeed -= (float)5 / 4f;
+                CubesAnswers.transform.position += new Vector3(0, 0, 200f);
+                engel.transform.position += new Vector3(0, 0, 200f);
+                Questions.Start();
+            }
+        }
+        if (other.tag == "bariyer")
+        {
+            //index = PlayerPrefs.GetFloat("index");
+            //Hearts[(int)index].gameObject.SetActive(false);
+            //index = index - (float)0.25;
+            //PlayerPrefs.SetFloat("index", index);
+            CanHakký = 0;
+            transform.position = new Vector3(carPosition.x + 4f, 0, carPosition.z);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+            if (moveSpeed > 15)
+            {
+                moveSpeed -= (float)5 / 2f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             }
-            
+
         }
         if (other.tag == "bariyer2")
         {
+            //index = PlayerPrefs.GetFloat("index");
+            //Hearts[(int)index].gameObject.SetActive(false);
+            //index = index - (float)0.25;
+            //index = (int)Mathf.Floor(index);
+            //PlayerPrefs.SetFloat("index", index);
             CanHakký = 0;
-            transform.position = new Vector3(carPosition.x-4f, 0, carPosition.z);
-            index = PlayerPrefs.GetFloat("index");
-            Hearts[(int)index].gameObject.SetActive(false);
-            index = index - (float)0.25;
-            PlayerPrefs.SetFloat("index", index); 
+            transform.position = new Vector3(carPosition.x - 4f, 0, carPosition.z);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
             if (moveSpeed > 15)
             {
-                moveSpeed -= (float)5 / 4f;
+                moveSpeed -= (float)5 / 2f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             }
         }
-        if (other.tag=="slowmotion")
+        if (other.tag == "slowmotion")
         {
-            if (CanHakký % 3 == 0&&CanHakký!=0)
+            if (CanHakký % 3 == 0 && CanHakký != 0)
             {
-                Time.timeScale = 0.2f;
-                SlowMotion.text = "SlowMotion!";
-                StartCoroutine(SlowAnim());
+                SlowMotionButton.interactable = true;
+                SlowMotionButton.GetComponentInChildren<Text>().color= Color.green;
             }
         }
     }
@@ -391,7 +406,7 @@ public class Car : MonoBehaviour
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         sayac = 1;
         ManagerGame.isFinished = false;
-        index=4;
+        index = 4;
         PlayerPrefs.SetFloat("index", index);
         //timer.ResetTimer();
     }
@@ -427,7 +442,7 @@ public class Car : MonoBehaviour
     }
     public void IlkBaslangic()
     {
-        if (deger==0||deger==1)
+        if (deger == 0 || deger == 1)
         {
             carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
             transform.position = carPosition;
@@ -544,7 +559,7 @@ public class Car : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSeconds(0.018f);
-            carPosition = new Vector3(carPosition.x + (i*(float)0.4), 0, carPosition.z+1.5f);
+            carPosition = new Vector3(carPosition.x + (i * (float)0.4), 0, carPosition.z + 1.5f);
             transform.position = carPosition;
         }
         for (int i = 0; i < 15; i++)
@@ -564,12 +579,12 @@ public class Car : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSeconds(0.018f);
-            carPosition = new Vector3(carPosition.x - (i * (float)0.4), 0, carPosition.z+1.5f);
+            carPosition = new Vector3(carPosition.x - (i * (float)0.4), 0, carPosition.z + 1.5f);
             transform.position = carPosition;
         }
         for (int i = 0; i < 15; i++)
         {
-            carPosition = new Vector3(carPosition.x, 0, carPosition.z+0.2f);
+            carPosition = new Vector3(carPosition.x, 0, carPosition.z + 0.2f);
             transform.position = carPosition;
         }
         //if (carPosition.x< (float)-71.29061)
@@ -587,7 +602,7 @@ public class Car : MonoBehaviour
     }
     public IEnumerator DogruCevapAnim()
     {
-        
+
         while (geriSayimSure > 0)
         {
             yield return new WaitForSeconds(0.1f);
@@ -597,17 +612,17 @@ public class Car : MonoBehaviour
                 hedefMalzeme.SetColor("_Color", Color.green);
             }
 
-            
+
         }
         geriSayimSure = 10;
         Color bejRenk = new Color(210f / 255f, 180f / 255f, 140f / 255f);
-            hedefMalzeme.color = bejRenk;
-            GetComponent<Renderer>().material = hedefMalzeme;
-        
+        hedefMalzeme.color = bejRenk;
+        GetComponent<Renderer>().material = hedefMalzeme;
+
     }
     public IEnumerator YanlisCevapAnim()
     {
-        
+
         while (geriSayimSure > 0)
         {
             yield return new WaitForSeconds(0.1f);
@@ -619,10 +634,10 @@ public class Car : MonoBehaviour
 
         }
         geriSayimSure = 10;
-            Color bejRenk = new Color(210f / 255f, 180f / 255f, 140f / 255f);
-            hedefMalzeme.color = bejRenk;
-            GetComponent<Renderer>().material = hedefMalzeme;
-        
+        Color bejRenk = new Color(210f / 255f, 180f / 255f, 140f / 255f);
+        hedefMalzeme.color = bejRenk;
+        GetComponent<Renderer>().material = hedefMalzeme;
+
     }
     public IEnumerator BosAnim()
     {
@@ -654,13 +669,19 @@ public class Car : MonoBehaviour
             {
                 SlowMotion.fontSize += 1;
             }
-            
-            
+
+
 
         }
-        geriSayimSure = 10; 
+        geriSayimSure = 10;
         SlowMotion.fontSize = 40;
 
+    }
+    public void Slow ()
+    {
+        Time.timeScale = 0.2f;
+        SlowMotion.text = "SlowMotion!";
+        StartCoroutine(SlowAnim());
     }
 
 }
