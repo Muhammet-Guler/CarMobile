@@ -15,7 +15,7 @@ public class OpeningScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Time.timeScale = 0f;
     }
 
     // Update is called once per frame
@@ -30,6 +30,7 @@ public class OpeningScene : MonoBehaviour
         deger = 0;
         PlayerPrefs.SetInt("deger", deger);
         ilkBaslangic();
+        car.sayac = 1;
     }
     public void Zor()
     {
@@ -37,6 +38,7 @@ public class OpeningScene : MonoBehaviour
         deger = 1;
         PlayerPrefs.SetInt("deger", deger);
         ilkBaslangic();
+        car.sayac = 1;
     }
     public void Exit()
     {
@@ -46,7 +48,7 @@ public class OpeningScene : MonoBehaviour
     {
         car.carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
         transform.position = car.carPosition;
-        car.moveSpeed = 10f;
+        car.moveSpeed = 15f;
         PlayerPrefs.SetFloat("ArabaninHizi", car.moveSpeed);
 
     }

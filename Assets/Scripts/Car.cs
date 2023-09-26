@@ -20,11 +20,8 @@ public class Car : MonoBehaviour
     public GameObject PausePanel;
     public int sayac = 0;
     public int deger;
-    public GameObject Road;
-    public GameObject Road2;
     public Transform[] Roads;
     public Sound sound;
-    public GameObject Puzzle;
     int ses;
     public Vector3 PuzzlePosition;
     public GameObject CubesAnswers;
@@ -40,6 +37,13 @@ public class Car : MonoBehaviour
     public bool OyunDurdurulduMu;
     public UnityEngine.UI.Text SlowMotion;
     public UnityEngine.UI.Button SlowMotionButton;
+    public GameObject engel1;
+    public GameObject engel2;
+    public GameObject engel3;
+    private float zamanlayici = 2f;
+    private float zamanlayici2 = 0.2f;
+    public GameObject car;
+    private int onceki;
     void Start()
     {
         Time.timeScale = 1f;
@@ -49,6 +53,9 @@ public class Car : MonoBehaviour
         hedefMalzeme.color = bejRenk;
         GetComponent<Renderer>().material = hedefMalzeme;
         SlowMotionButton.interactable = false;
+        transform.position = new Vector3((float)-67.28, 0, (float)-298.5);
+        timer.minutes = 0;
+        timer.seconds = 0;
     }
     //arabanýn konumu ve hýzý sürekli güncellenerek tutuluyor
     //arabanýn maksimimum hýzý 360 olarak ayarlanýyor
@@ -83,7 +90,6 @@ public class Car : MonoBehaviour
             }
 
             ManagerGame.isFinished = true;
-            timer.CheckHighScore();
             index = 4;
             PlayerPrefs.SetFloat("index", index);
         }
@@ -101,7 +107,6 @@ public class Car : MonoBehaviour
             }
 
             ManagerGame.isFinished = true;
-            timer.CheckHighScore();
             index = 4;
             PlayerPrefs.SetFloat("index", index);
         }
@@ -115,7 +120,85 @@ public class Car : MonoBehaviour
             moveSpeed = 100;
             PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
         }
+        zamanlayici -= Time.deltaTime; // Zamanlayýcýyý azalt
 
+        if (zamanlayici <= 0f)
+        {
+            Engeller();
+            zamanlayici = 2f; 
+        }
+        if (transform.position.y>1||transform.position.y<-1)
+        {
+            SesDurdur();
+            RestartAndQuit.SetActive(true);
+            Questions.DogruYanlis();
+            Time.timeScale = 0f;
+            moveSpeed = 0f;
+            //timer.StopTimer();
+            if (moveSpeed > 60f)
+            {
+                moveSpeed = 0f;
+            }
+
+            ManagerGame.isFinished = true;
+            index = 4;
+            PlayerPrefs.SetFloat("index", index);
+        }
+    }
+    public void Engeller()
+    {
+        int rnd = UnityEngine.Random.Range(0, 3);
+        if (rnd == 0&&onceki!=0)
+        {
+            int rnd2 = UnityEngine.Random.Range(0, 3);
+            if (rnd2 == 0)
+            {
+                engel1.transform.position = new Vector3((float)-62.82907, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd2 == 1)
+            {
+                engel1.transform.position = new Vector3((float)-58.91, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd2 == 2)
+            {
+                engel1.transform.position = new Vector3((float)-54.99, (float)5.135469, carPosition.z + 35);
+            }
+            onceki = 0;
+        }
+        if (rnd == 1&&onceki!=1)
+        {
+            int rnd3 = UnityEngine.Random.Range(0, 3);
+            if (rnd3 == 0)
+            {
+                engel2.transform.position = new Vector3((float)-62.48, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd3 == 1)
+            {
+                engel2.transform.position = new Vector3((float)-66.31, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd3 == 2)
+            {
+                engel2.transform.position = new Vector3((float)-70.29, (float)5.135469, carPosition.z + 35);
+            }
+            onceki = 1;
+        }
+        if (rnd == 2 && onceki != 2)
+        {
+            int rnd4 = UnityEngine.Random.Range(0, 3);
+            if (rnd4 == 0)
+            {
+                engel3.transform.position = new Vector3((float)-66.78, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd4 == 1)
+            {
+                engel3.transform.position = new Vector3((float)-58.9, (float)5.135469, carPosition.z + 35);
+            }
+            if (rnd4 == 2)
+            {
+                engel3.transform.position = new Vector3((float)-62.78, (float)5.1354697, carPosition.z + 35);
+            }
+            onceki = 2;
+        }
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
@@ -300,37 +383,64 @@ public class Car : MonoBehaviour
                 Questions.Start();
             }
         }
+        if (other.tag=="engeller")
+        {
+            index = PlayerPrefs.GetFloat("index"); 
+            CanHakký = 0;
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+            Hearts[(int)index].gameObject.SetActive(false);
+            index = index - 1;
+            PlayerPrefs.SetFloat("index", index);
+            if (moveSpeed > 15)
+            {
+                moveSpeed -=5f;
+                PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+
+            }
+            other.gameObject.SetActive(false);
+            float respawnTime = 0.5f;
+            StartCoroutine(RespawnObstacle(other.gameObject, respawnTime));
+            StartCoroutine(YanlisCevapAnim());
+        }
         if (other.tag == "bariyer")
         {
-            //index = PlayerPrefs.GetFloat("index");
-            //Hearts[(int)index].gameObject.SetActive(false);
-            //index = index - (float)0.25;
-            //PlayerPrefs.SetFloat("index", index);
+            index = PlayerPrefs.GetFloat("index");
+            Hearts[(int)index].gameObject.SetActive(false);
+            index = index - 1;
+            PlayerPrefs.SetFloat("index", index);
             CanHakký = 0;
             transform.position = new Vector3(carPosition.x + 4f, 0, carPosition.z);
             transform.rotation = new Quaternion(0, 0, 0, 0);
+            transform.localRotation = Quaternion.identity;
+            transform.rotation = Quaternion.identity;
             if (moveSpeed > 15)
             {
-                moveSpeed -= (float)5 / 2f;
+                moveSpeed -=10f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             }
-
+            other.gameObject.SetActive(false);
+            float respawnTime = 0.01f;
+            StartCoroutine(RespawnObstacle(other.gameObject, respawnTime));
         }
         if (other.tag == "bariyer2")
         {
-            //index = PlayerPrefs.GetFloat("index");
-            //Hearts[(int)index].gameObject.SetActive(false);
-            //index = index - (float)0.25;
-            //index = (int)Mathf.Floor(index);
-            //PlayerPrefs.SetFloat("index", index);
+            index = PlayerPrefs.GetFloat("index");
+            Hearts[(int)index].gameObject.SetActive(false);
+            index = index - 1;
+            PlayerPrefs.SetFloat("index", index);
             CanHakký = 0;
             transform.position = new Vector3(carPosition.x - 4f, 0, carPosition.z);
             transform.rotation = new Quaternion(0, 0, 0, 0);
+            transform.localRotation = Quaternion.identity;
+            transform.rotation = Quaternion.identity;
             if (moveSpeed > 15)
             {
-                moveSpeed -= (float)5 / 2f;
+                moveSpeed -= 10f;
                 PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
             }
+            other.gameObject.SetActive(false);
+            float respawnTime = 0.01f;
+            StartCoroutine(RespawnObstacle(other.gameObject, respawnTime));
         }
         if (other.tag == "slowmotion")
         {
@@ -340,6 +450,11 @@ public class Car : MonoBehaviour
                 SlowMotionButton.GetComponentInChildren<Text>().color= Color.green;
             }
         }
+    }
+    IEnumerator RespawnObstacle(GameObject obstacle, float respawnTime)
+    {
+        yield return new WaitForSeconds(respawnTime);
+        obstacle.SetActive(true);
     }
     public void SesOynat()
     {
@@ -388,6 +503,8 @@ public class Car : MonoBehaviour
         yakinlastir = 0;
         index = 4;
         PlayerPrefs.SetFloat("index", index);
+        timer.minutes = 0;
+        timer.seconds = 0;
     }
     //Oyundaki her?ey s?f?rlanarak ba?lang?? ekran?na geri g?n?yoruz
     public void Restart()
@@ -408,6 +525,8 @@ public class Car : MonoBehaviour
         ManagerGame.isFinished = false;
         index = 4;
         PlayerPrefs.SetFloat("index", index);
+        timer.minutes = 0;
+        timer.seconds = 0;
         //timer.ResetTimer();
     }
     public void Exit()
@@ -433,21 +552,14 @@ public class Car : MonoBehaviour
     //Herþey sýfýrlanarak baþlangýç ekranýna dönülüyor
     public void HomeMenu()
     {
+        Time.timeScale = 0f;
         sayac = 1;
-        carPosition = new Vector3((float)-67.28, 0, (float)-298.5);
-        transform.position = carPosition;
+        transform.position = new Vector3((float)-67.28, 0, (float)-298.5);
         moveSpeed = 15f;
         PlayerPrefs.SetFloat("ArabaninHizi", moveSpeed);
+        timer.minutes = 0;
+        timer.seconds = 0;
         SceneManager.LoadScene(0);
-    }
-    public void IlkBaslangic()
-    {
-        if (deger == 0 || deger == 1)
-        {
-            carPosition = new Vector3((float)-67.28, 0, (float)-293.8);
-            transform.position = carPosition;
-
-        }
     }
     //public enum ControlMode
     //{
