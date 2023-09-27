@@ -144,6 +144,7 @@ public class Car : MonoBehaviour
             index = 4;
             PlayerPrefs.SetFloat("index", index);
         }
+
     }
     public void Engeller()
     {
@@ -199,6 +200,8 @@ public class Car : MonoBehaviour
             }
             onceki = 2;
         }
+            
+        
     }
     //finishe geldiðimizde restart ekranýmýz geliyor
     //hýzýmýz sýfýrlanýyor ve arka plandaki her þey duruyor
@@ -222,6 +225,12 @@ public class Car : MonoBehaviour
         //    timer.CheckHighScore();
         //    SesDurdur();
         //}
+        if (other.tag=="engelgizle")
+        {
+            engel1.gameObject.SetActive(false);
+            engel2.gameObject.SetActive(false);
+            engel3.gameObject.SetActive(false);
+        }
         if (other.tag == "ikinci")
         {
             Roads[1].transform.position = new Vector3(Roads[0].transform.position.x, Roads[0].transform.position.y, Roads[0].transform.position.z + (float)188f);
@@ -382,6 +391,9 @@ public class Car : MonoBehaviour
                 engel.transform.position += new Vector3(0, 0, 200f);
                 Questions.Start();
             }
+            engel1.gameObject.SetActive(true);
+            engel2.gameObject.SetActive(true);
+            engel3.gameObject.SetActive(true);
         }
         if (other.tag=="engeller")
         {
